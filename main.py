@@ -37,6 +37,7 @@ MAIN_DATA_FILE_NAME = f"{DATA_DIR}flights.csv"
 CODE_TO_AIRPORT_FILE_NAME = f"{DATA_DIR}airports.csv"
 CODE_TO_AIRLINE_FILE_NAME = f"{DATA_DIR}airlines.csv"
 DEFAULT_BIN_SIZE = 30
+SKIP_IF_IMAGES_EXIST = True  # Set to True to skip generation if images exist
 
 main_data = pd.read_csv(MAIN_DATA_FILE_NAME)
 code_to_airport = pd.read_csv(CODE_TO_AIRPORT_FILE_NAME)
@@ -46,6 +47,8 @@ code_to_airline = pd.read_csv(CODE_TO_AIRLINE_FILE_NAME)
 def generate_histogram_image(
     column_name: str, column_data: np.ndarray, file_name: str
 ) -> None:
+    if SKIP_IF_IMAGES_EXIST and os.path.exists(file_name):
+        return
     plt.figure(figsize=(10, 6))
     arr = np.asarray(column_data)
     arr = arr[~pd.isnull(arr)]
@@ -79,14 +82,16 @@ columns_and_data: List[Tuple[str, np.ndarray]] = [
 ]
 
 histogram_file_names: List[str] = []
-with Pool(processes=cpu_count()) as pool:
-    for histogram_file_name in tqdm(
-        pool.imap(process_column, columns_and_data),
-        total=len(columns_and_data),
-        desc="Generating histograms",
-    ):
-        histogram_file_names.append(histogram_file_name)
-
+if not (SKIP_IF_IMAGES_EXIST and all(os.path.exists(f"{IMG_DIR}histogram_{col}.png") for col in main_data.columns)):
+    with Pool(processes=cpu_count()) as pool:
+        for histogram_file_name in tqdm(
+            pool.imap(process_column, columns_and_data),
+            total=len(columns_and_data),
+            desc="Generating histograms",
+        ):
+            histogram_file_names.append(histogram_file_name)
+else:
+    histogram_file_names = [f"{IMG_DIR}histogram_{col}.png" for col in main_data.columns]
 
 typst_image_elements: List[str] = []
 for histogram_file_name in histogram_file_names:
@@ -123,13 +128,46 @@ def plot_correlation_matrix(correlation_matrix: pd.DataFrame, file_name: str) ->
     plt.savefig(file_name)
     plt.close()
 
+if not (SKIP_IF_IMAGES_EXIST and os.path.exists(f"{IMG_DIR}correlation_matrix.png")):
+    print("Generating correlation matrix...")
+    correlation_matrix = generate_correlation_matrix(main_data)
+    correlation_matrix_file_name = f"{IMG_DIR}correlation_matrix.png"
+    plot_correlation_matrix(correlation_matrix, correlation_matrix_file_name)
+    generate_typst_image_element("Correlation Matrix", correlation_matrix_file_name)
+else:
+    correlation_matrix_file_name = f"{IMG_DIR}correlation_matrix.png"
 
-correlation_matrix = generate_correlation_matrix(main_data)
-correlation_matrix_file_name = f"{IMG_DIR}correlation_matrix.png"
-plot_correlation_matrix(correlation_matrix, correlation_matrix_file_name)
-generate_typst_image_element("Correlation Matrix", correlation_matrix_file_name)
 with open(TYPST_CORRELATION_MATRIX_FILE_NAME, "w") as f:
     f.write(f'#image("{correlation_matrix_file_name}")\n')
 
 
-## wygenerowaniue wykresu korelacji względem atrybutu ARRIVAL_DELAY
+## wygenerowaniue wykresu korelacji spearmana względem atrybutu ARRIVAL_DELAY bar plot
+def plot_correlation_with_target(
+    correlation_matrix: pd.DataFrame,
+    target_column: str,
+    file_name: str,
+) -> None:
+    # Exclude the target column from the plot
+    corr = correlation_matrix[target_column].drop(labels=[target_column], errors="ignore")
+    plt.figure(figsize=(12, 6))
+    sns.barplot(
+        y=corr.index,
+        x=corr.values,
+        palette="coolwarm",
+    )
+    plt.title(f"Correlation with {target_column}")
+    plt.xticks(rotation=90)
+    plt.savefig(file_name)
+    plt.close()
+
+
+print("Generating correlation with ARRIVAL_DELAY...")
+correlation_with_target_file_name = f"{IMG_DIR}correlation_with_target.png"
+plot_correlation_with_target(
+    correlation_matrix, "ARRIVAL_DELAY", correlation_with_target_file_name
+)
+generate_typst_image_element(
+    "Correlation with ARRIVAL_DELAY", correlation_with_target_file_name
+)
+with open("correlation_with_target.typ", "w") as f:
+    f.write(f'#image("{correlation_with_target_file_name}")\n')
