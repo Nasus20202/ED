@@ -82,7 +82,12 @@ columns_and_data: List[Tuple[str, np.ndarray]] = [
 ]
 
 histogram_file_names: List[str] = []
-if not (SKIP_IF_IMAGES_EXIST and all(os.path.exists(f"{IMG_DIR}histogram_{col}.png") for col in main_data.columns)):
+if not (
+    SKIP_IF_IMAGES_EXIST
+    and all(
+        os.path.exists(f"{IMG_DIR}histogram_{col}.png") for col in main_data.columns
+    )
+):
     with Pool(processes=cpu_count()) as pool:
         for histogram_file_name in tqdm(
             pool.imap(process_column, columns_and_data),
@@ -91,7 +96,9 @@ if not (SKIP_IF_IMAGES_EXIST and all(os.path.exists(f"{IMG_DIR}histogram_{col}.p
         ):
             histogram_file_names.append(histogram_file_name)
 else:
-    histogram_file_names = [f"{IMG_DIR}histogram_{col}.png" for col in main_data.columns]
+    histogram_file_names = [
+        f"{IMG_DIR}histogram_{col}.png" for col in main_data.columns
+    ]
 
 typst_image_elements: List[str] = []
 for histogram_file_name in histogram_file_names:
@@ -128,6 +135,7 @@ def plot_correlation_matrix(correlation_matrix: pd.DataFrame, file_name: str) ->
     plt.savefig(file_name)
     plt.close()
 
+
 if not (SKIP_IF_IMAGES_EXIST and os.path.exists(f"{IMG_DIR}correlation_matrix.png")):
     print("Generating correlation matrix...")
     correlation_matrix = generate_correlation_matrix(main_data)
@@ -148,7 +156,9 @@ def plot_correlation_with_target(
     file_name: str,
 ) -> None:
     # Exclude the target column from the plot
-    corr = correlation_matrix[target_column].drop(labels=[target_column], errors="ignore")
+    corr = correlation_matrix[target_column].drop(
+        labels=[target_column], errors="ignore"
+    )
     plt.figure(figsize=(12, 6))
     sns.barplot(
         y=corr.index,
@@ -178,7 +188,11 @@ if not (SKIP_IF_IMAGES_EXIST and os.path.exists(correlation_with_target_file_nam
 
 ### Wyegenerowanie wykresów pudełkowych dla wszystkich atrybutów, podanie w opsicie przedzału najczęściej występujących wartości i liczby punktów oddaloncyh i mediany
 def generate_boxplot(
-    column_name: str, column_data: np.ndarray, file_name: str
+    column_name: str,
+    column_data: np.ndarray,
+    file_name: str,
+    median=None,
+    outliers_count=None,
 ) -> None:
     # Only plot for numeric columns
     arr = np.asarray(column_data)
@@ -189,23 +203,45 @@ def generate_boxplot(
         return
     plt.figure(figsize=(10, 6))
     sns.boxplot(x=arr)
-    plt.title(f"Boxplot of {column_name}")
+    title = f"Boxplot of {column_name}"
+    if median is not None and outliers_count is not None:
+        title += f" (median={median}, outliers={outliers_count})"
+    plt.title(title)
     plt.xlabel(column_name)
-    print("saving boxplot", column_name)
     plt.savefig(file_name)
     plt.close()
+
+
+def calculate_boxplot_stats(arr: np.ndarray) -> tuple:
+    arr = arr[~pd.isnull(arr)]
+    if arr.size == 0:
+        return (None, 0)
+    median = np.median(arr)
+    q1 = np.percentile(arr, 25)
+    q3 = np.percentile(arr, 75)
+    iqr = q3 - q1
+    lower_bound = q1 - 1.5 * iqr
+    upper_bound = q3 + 1.5 * iqr
+    outliers = arr[(arr < lower_bound) | (arr > upper_bound)]
+    return (median, len(outliers))
 
 
 def generate_boxplot_image_element(column_name: str, image_file_name: str) -> str:
     return f'image("{image_file_name}")'
 
+
 print("Generating boxplots...")
+
 
 def process_boxplot_column(args: Tuple[str, np.ndarray]) -> str:
     column_name, column_data = args
     boxplot_file_name = f"{IMG_DIR}boxplot_{column_name}.png"
-    generate_boxplot(column_name, column_data, boxplot_file_name)
+    median, outliers_count = calculate_boxplot_stats(column_data)
+    generate_boxplot(
+        column_name, column_data, boxplot_file_name, median, outliers_count
+    )
     return boxplot_file_name
+
 
 # Only process numeric columns for boxplots
 numeric_columns_and_data: List[Tuple[str, np.ndarray]] = [
@@ -214,7 +250,13 @@ numeric_columns_and_data: List[Tuple[str, np.ndarray]] = [
 ]
 
 boxplot_file_names: List[str] = []
-if not (SKIP_IF_IMAGES_EXIST and all(os.path.exists(f"{IMG_DIR}boxplot_{col}.png") for col, _ in numeric_columns_and_data)):
+if not (
+    SKIP_IF_IMAGES_EXIST
+    and all(
+        os.path.exists(f"{IMG_DIR}boxplot_{col}.png")
+        for col, _ in numeric_columns_and_data
+    )
+):
     with Pool(processes=cpu_count()) as pool:
         for boxplot_file_name in tqdm(
             pool.imap(process_boxplot_column, numeric_columns_and_data),
@@ -223,13 +265,15 @@ if not (SKIP_IF_IMAGES_EXIST and all(os.path.exists(f"{IMG_DIR}boxplot_{col}.png
         ):
             boxplot_file_names.append(boxplot_file_name)
 else:
-    boxplot_file_names = [f"{IMG_DIR}boxplot_{col}.png" for col, _ in numeric_columns_and_data]
+    boxplot_file_names = [
+        f"{IMG_DIR}boxplot_{col}.png" for col, _ in numeric_columns_and_data
+    ]
 
 boxplot_image_elements: List[str] = []
-for boxplot_file_name in boxplot_file_names:
-    boxplot_image_element = generate_boxplot_image_element(
-        boxplot_file_name, boxplot_file_name
-    )
+for (col, col_data), boxplot_file_name in zip(
+    numeric_columns_and_data, boxplot_file_names
+):
+    boxplot_image_element = generate_boxplot_image_element(col, boxplot_file_name)
     boxplot_image_elements.append(boxplot_image_element)
 
 with open("boxplots.typ", "w") as f:

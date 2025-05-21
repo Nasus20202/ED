@@ -1,4 +1,7 @@
 .venv/
 __pycache__/
 data/
-histograms.*
+*.typ
+*.pdf
+!etap1.pdf
+!etap1.typ
