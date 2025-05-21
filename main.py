@@ -163,11 +163,82 @@ def plot_correlation_with_target(
 
 print("Generating correlation with ARRIVAL_DELAY...")
 correlation_with_target_file_name = f"{IMG_DIR}correlation_with_target.png"
-plot_correlation_with_target(
-    correlation_matrix, "ARRIVAL_DELAY", correlation_with_target_file_name
-)
-generate_typst_image_element(
-    "Correlation with ARRIVAL_DELAY", correlation_with_target_file_name
-)
-with open("correlation_with_target.typ", "w") as f:
-    f.write(f'#image("{correlation_with_target_file_name}")\n')
+if not (SKIP_IF_IMAGES_EXIST and os.path.exists(correlation_with_target_file_name)):
+    correlation_matrix = generate_correlation_matrix(main_data)
+    plot_correlation_with_target(
+        correlation_matrix, "ARRIVAL_DELAY", correlation_with_target_file_name
+    )
+
+    generate_typst_image_element(
+        "Correlation with ARRIVAL_DELAY", correlation_with_target_file_name
+    )
+    with open("correlation_with_target.typ", "w") as f:
+        f.write(f'#image("{correlation_with_target_file_name}")\n')
+
+
+### Wyegenerowanie wykresów pudełkowych dla wszystkich atrybutów, podanie w opsicie przedzału najczęściej występujących wartości i liczby punktów oddaloncyh i mediany
+def generate_boxplot(
+    column_name: str, column_data: np.ndarray, file_name: str
+) -> None:
+    # Only plot for numeric columns
+    arr = np.asarray(column_data)
+    arr = arr[~pd.isnull(arr)]
+    if not np.issubdtype(arr.dtype, np.number):
+        return  # Skip non-numeric columns
+    if SKIP_IF_IMAGES_EXIST and os.path.exists(file_name):
+        return
+    plt.figure(figsize=(10, 6))
+    sns.boxplot(x=arr)
+    plt.title(f"Boxplot of {column_name}")
+    plt.xlabel(column_name)
+    print("saving boxplot", column_name)
+    plt.savefig(file_name)
+    plt.close()
+
+
+def generate_boxplot_image_element(column_name: str, image_file_name: str) -> str:
+    return f'image("{image_file_name}")'
+
+print("Generating boxplots...")
+
+def process_boxplot_column(args: Tuple[str, np.ndarray]) -> str:
+    column_name, column_data = args
+    boxplot_file_name = f"{IMG_DIR}boxplot_{column_name}.png"
+    generate_boxplot(column_name, column_data, boxplot_file_name)
+    return boxplot_file_name
+
+# Only process numeric columns for boxplots
+numeric_columns_and_data: List[Tuple[str, np.ndarray]] = [
+    (col, np.asarray(main_data[col]))
+    for col in main_data.select_dtypes(include=[np.number]).columns
+]
+
+boxplot_file_names: List[str] = []
+if not (SKIP_IF_IMAGES_EXIST and all(os.path.exists(f"{IMG_DIR}boxplot_{col}.png") for col, _ in numeric_columns_and_data)):
+    with Pool(processes=cpu_count()) as pool:
+        for boxplot_file_name in tqdm(
+            pool.imap(process_boxplot_column, numeric_columns_and_data),
+            total=len(numeric_columns_and_data),
+            desc="Generating boxplots",
+        ):
+            boxplot_file_names.append(boxplot_file_name)
+else:
+    boxplot_file_names = [f"{IMG_DIR}boxplot_{col}.png" for col, _ in numeric_columns_and_data]
+
+boxplot_image_elements: List[str] = []
+for boxplot_file_name in boxplot_file_names:
+    boxplot_image_element = generate_boxplot_image_element(
+        boxplot_file_name, boxplot_file_name
+    )
+    boxplot_image_elements.append(boxplot_image_element)
+
+with open("boxplots.typ", "w") as f:
+    f.write("#grid(\n" + "  columns: (1fr, 1fr),\n" + "  gutter: 3pt,")
+    for i, boxplot_image_element in enumerate(boxplot_image_elements):
+        f.write(
+            "  "
+            + boxplot_image_element
+            + (",\n" if i != len(boxplot_image_elements) - 1 else "\n")
+        )
+    f.write("\n)")
+    f.write("\n")
