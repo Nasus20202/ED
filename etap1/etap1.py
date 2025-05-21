@@ -31,7 +31,7 @@ from typing import List, Tuple
 
 TYPST_HISTOGRAMS_FILE_NAME = "histograms.typ"
 TYPST_CORRELATION_MATRIX_FILE_NAME = "correlation_matrix.typ"
-DATA_DIR = "data/"
+DATA_DIR = "../data/"
 IMG_DIR = "img/"
 MAIN_DATA_FILE_NAME = f"{DATA_DIR}flights.csv"
 CODE_TO_AIRPORT_FILE_NAME = f"{DATA_DIR}airports.csv"
@@ -226,10 +226,6 @@ def calculate_boxplot_stats(arr: np.ndarray) -> tuple:
     return (median, len(outliers))
 
 
-def generate_boxplot_image_element(column_name: str, image_file_name: str) -> str:
-    return f'image("{image_file_name}")'
-
-
 print("Generating boxplots...")
 
 
@@ -273,7 +269,7 @@ boxplot_image_elements: List[str] = []
 for (col, col_data), boxplot_file_name in zip(
     numeric_columns_and_data, boxplot_file_names
 ):
-    boxplot_image_element = generate_boxplot_image_element(col, boxplot_file_name)
+    boxplot_image_element = generate_typst_image_element(col, boxplot_file_name)
     boxplot_image_elements.append(boxplot_image_element)
 
 with open("boxplots.typ", "w") as f:
