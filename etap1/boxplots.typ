@@ -1,9 +1,9 @@
 #grid(
   columns: (1fr, 1fr),
-  gutter: 3pt,  image("img/boxplot_YEAR.png"),
-  image("img/boxplot_MONTH.png"),
-  image("img/boxplot_DAY.png"),
-  image("img/boxplot_DAY_OF_WEEK.png"),
+  gutter: 3pt,  //image("img/boxplot_YEAR.png"),
+  //image("img/boxplot_MONTH.png"),
+  //image("img/boxplot_DAY.png"),
+  //image("img/boxplot_DAY_OF_WEEK.png"),
   image("img/boxplot_FLIGHT_NUMBER.png"),
   image("img/boxplot_SCHEDULED_DEPARTURE.png"),
   image("img/boxplot_DEPARTURE_TIME.png"),
