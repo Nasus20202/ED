@@ -94,9 +94,9 @@ brak
 #include "histograms.typ"
 
 - W przypadku atrybutu ARRIVAL_DELAY zauważalna jest przewaga lotów punktualnych lub z niewielkim opóźnieniem (poniżej 15 minut) względem lotów znacząco opóźnionych. Klasy są niezbalansowane, co może wpłynąć na skuteczność modeli klasyfikacyjnych.
-- Rozkłady większości atrybutów numerycznych, takich jak DEPARTURE_DELAY, AIR_TIME, TAXI_OUT czy SCHEDULED_TIME, nie przypominają rozkładu normalnego. Najczęściej obserwujemy rozkład prawoskośny – większość wartości skupia się w niższych przedziałach, a ogon rozkładu jest wydłużony w stronę wyższych wartości.
+- Rozkłady większości atrybutów numerycznych, takich jak DEPARTURE_DELAY, AIR_TIME, TAXI_OUT czy SCHEDULED_TIME, nie przypominają rozkładu normalnego. Najczęściej obserwujemy rozkład prawoskośny - większość wartości skupia się w niższych przedziałach, a ogon rozkładu jest wydłużony w stronę wyższych wartości.
 - Wysokie, rzadko występujące wartości w atrybutach takich jak WEATHER_DELAY, AIRLINE_DELAY oraz LATE_AIRCRAFT_DELAY mogą wskazywać na zdarzenia nietypowe, takie jak intensywne burze, problemy techniczne lub opóźnienia łańcuchowe wynikające z wcześniejszych lotów. Tego typu przypadki mają istotne znaczenie dla analizy przyczyn opóźnień i mogą być kluczowe przy budowie predykcyjnych modeli.
-- Wartości atrybutu DISTANCE rozkładają się nierównomiernie –większość lotów odbywa się na krótkich i średnich dystansach, co znajduje odzwierciedlenie w rozkładzie. Długodystansowe loty są mniej liczne.
+- Wartości atrybutu DISTANCE rozkładają się nierównomiernie - większość lotów odbywa się na krótkich i średnich dystansach, co znajduje odzwierciedlenie w rozkładzie. Długodystansowe loty są mniej liczne.
 
 == Punkty oddalone
 
@@ -140,14 +140,16 @@ Na podstawie przedstawionych median oraz liczby punktów oddalonych dla poszczeg
 - Mediana opóźnienia przylotu (ARRIVAL_DELAY) jest ujemna (-5), co sugeruje, że ponad połowa lotów przylatuje przed planowanym czasem lub z minimalnym opóźnieniem.
 - Atrybuty binarne, takie jak CANCELLED czy DIVERTED, mają medianę 0, co oznacza, że większość lotów nie jest odwoływana ani przekierowywana.
 - Dla atrybutów czasowych (np. ARRIVAL_TIME, DEPARTURE_TIME, WHEELS_ON, WHEELS_OFF) mediany odpowiadają typowym godzinom operacji lotniczych, a brak punktów oddalonych sugeruje, że wartości te są stabilne.
-- Wysoka liczba punktów oddalonych w atrybutach związanych z czasem trwania lotu (AIR_TIME, ELAPSED_TIME, SCHEDULED_TIME) oraz dystansem (DISTANCE) odzwierciedla zróżnicowanie tras – od krótkich po bardzo długie loty.
+- Wysoka liczba punktów oddalonych w atrybutach związanych z czasem trwania lotu (AIR_TIME, ELAPSED_TIME, SCHEDULED_TIME) oraz dystansem (DISTANCE) odzwierciedla zróżnicowanie tras - od krótkich po bardzo długie loty.
 
 == Macierz korelacji
 
 #include "correlation_matrix.typ"
 
+#include "correlation_with_target.typ"
 
-Istnieje silna korelacja pomiędzy atrybutami WHEELS_OFF i ARRIVAL_TIME (0.78), co pokazuje że większość opóźnij wynika z opóźnieniami na lądzie. Same przeloty są punktualne. Podobne wnioski można wysnuć w przypadku atrybutów SECURITY_DELAY i WEATHER_DELAY które prawie nie wykazują korelacji z całkowitym opóźnieniem co może sugerować że czasy odprawy i pogoda są niewielkim czynnikiem wpływającym na opóźnienia. \ 
+
+Istnieje silna korelacja pomiędzy atrybutami WHEELS_OFF i ARRIVAL_TIME (0.78), co pokazuje, że większość opóźnień wynika z opóźnieniami na lądzie. Same przeloty są punktualne. Podobne wnioski można wysnuć w przypadku atrybutów SECURITY_DELAY i WEATHER_DELAY, które prawie nie wykazują korelacji z całkowitym opóźnieniem, co może sugerować, że czasy odprawy i pogoda są niewielkim czynnikiem wpływającym na opóźnienia. \ 
 
 = Podsumowanie
 Na początku przeprowadzono analizę rozkładów atrybutów, z której wynika, że większość zmiennych numerycznych nie ma rozkładu normalnego — najczęściej przyjmują one postać rozkładów prawoskośnych. Dodatkowo klasy zmiennej celu (czy lot jest opóźniony) są niezbalansowane — znacznie więcej lotów kończy się punktualnie lub z niewielkim opóźnieniem. W związku z nienormalnością rozkładów zastosowano współczynnik korelacji rang Spearmana do analizy zależności między zmiennymi.
