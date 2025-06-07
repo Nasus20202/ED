@@ -34,7 +34,8 @@ def load_and_prepare_data():
     print(f"Original non-delayed flights: {len(non_delayed_flights)}")
 
     # Take minimum of both classes to balance
-    min_samples = min(min(len(delayed_flights), len(non_delayed_flights)), DATA_SIZE_LIMIT)
+    data_size_limit = get_data_size_limit("model_comparison")
+    min_samples = min(min(len(delayed_flights), len(non_delayed_flights)), data_size_limit)
     balanced_delayed = delayed_flights.sample(n=min_samples, random_state=RANDOM_STATE)
     balanced_non_delayed = non_delayed_flights.sample(n=min_samples, random_state=RANDOM_STATE)
 
@@ -132,7 +133,7 @@ def main():
         "summary": results,
         "configuration": {
             "models_compared": MODELS_TO_COMPARE,
-            "data_size_limit": DATA_SIZE_LIMIT,
+            "data_size_limit": get_data_size_limit("model_comparison"),
             "random_state": RANDOM_STATE
         }
     }

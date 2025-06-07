@@ -175,8 +175,9 @@ def main():
     print("Starting Genetic Algorithm Hyperparameter Tuning...")
     print(f"Configuration: {GA_CONFIG['generations']} generations, {GA_CONFIG['population_size']} population")
     
-    # Load full dataset for optimization
-    X_full, y_full = load_and_prepare_data(300000)
+    # Load full dataset for optimization using script-specific limit
+    genetic_data_limit = get_data_size_limit("genetic_tuning")
+    X_full, y_full = load_and_prepare_data(genetic_data_limit)
     
     models_to_optimize = get_optimization_models()
     results = {}
@@ -201,6 +202,7 @@ def main():
         "ga_config": GA_CONFIG,
         "param_ranges": PARAM_RANGES,
         "data_size_options": DATA_SIZE_OPTIONS,
+        "data_size_limit": genetic_data_limit,
         "cv_folds": CV_FOLDS
     }
     
@@ -212,7 +214,8 @@ def main():
     
     # Test best models
     print("\nTesting optimized models...")
-    X_test, y_test = load_and_prepare_data(100000)
+    test_data_limit = min(genetic_data_limit, 100000)  # Use smaller subset for testing
+    X_test, y_test = load_and_prepare_data(test_data_limit)
     X_train, X_val, y_train, y_val = train_test_split(X_test, y_test, test_size=0.2, random_state=42)
     
     test_results = {}

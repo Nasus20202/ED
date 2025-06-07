@@ -15,8 +15,14 @@ MAIN_DATA_FILE_NAME = f"{DATA_DIR}flights.csv"
 CODE_TO_AIRPORT_FILE_NAME = f"{DATA_DIR}airports.csv"
 CODE_TO_AIRLINE_FILE_NAME = f"{DATA_DIR}airlines.csv"
 
-# Data processing
-DATA_SIZE_LIMIT = 50_000  # Maximum number of rows to process (-1 for unlimited)
+# Data processing - Per-script data size limits
+DATA_SIZE_LIMITS = {
+    "model_comparison": 50_000,     # Fast comparison of models
+    "genetic_tuning": 1_000,      # More data for hyperparameter tuning
+    "benchmark_analysis": 10_000,  # Comprehensive benchmarking
+    "default": 50_000               # Default fallback
+}
+
 DELAYED_THRESHOLD = 15  # Minutes delay to classify as "DELAYED"
 FILL_NA_VALUE = 0  # Value to fill missing data
 RANDOM_STATE = 42  # For reproducible results
@@ -202,6 +208,14 @@ REPORTING = {
 # VALIDATION AND UTILITIES
 # =============================================================================
 
+def get_data_size_limit(script_name):
+    """Get data size limit for specific script"""
+    return DATA_SIZE_LIMITS.get(script_name, DATA_SIZE_LIMITS["default"])
+
+def set_data_size_limit(script_name, limit):
+    """Set data size limit for specific script"""
+    DATA_SIZE_LIMITS[script_name] = limit
+
 def validate_config():
     """Validate configuration parameters"""
     errors = []
@@ -216,6 +230,11 @@ def validate_config():
     
     if DELAYED_THRESHOLD < 0:
         errors.append(f"DELAYED_THRESHOLD must be non-negative, got {DELAYED_THRESHOLD}")
+    
+    # Check data size limits
+    for script, limit in DATA_SIZE_LIMITS.items():
+        if script != "default" and limit <= 0:
+            errors.append(f"Data size limit for {script} must be positive, got {limit}")
     
     # Check GA parameters
     if GA_CONFIG["generations"] <= 0:

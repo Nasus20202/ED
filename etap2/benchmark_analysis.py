@@ -235,7 +235,7 @@ def main():
     
     parser = argparse.ArgumentParser(description="Benchmark flight delay prediction models")
     parser.add_argument("--full", action="store_true", help="Use full dataset instead of limited size")
-    parser.add_argument("--size", type=int, default=DATA_SIZE_LIMIT, help=f"Dataset size limit (default: {DATA_SIZE_LIMIT})")
+    parser.add_argument("--size", type=int, default=None, help="Dataset size limit (default: from config)")
     
     args = parser.parse_args()
     
@@ -243,9 +243,12 @@ def main():
         data_size_limit = -1
         total_size = get_dataset_size()
         print(f"Using FULL dataset ({total_size:,} rows)")
-    else:
+    elif args.size is not None:
         data_size_limit = args.size
-        print(f"Using LIMITED dataset ({data_size_limit:,} rows)")
+        print(f"Using CUSTOM dataset size ({data_size_limit:,} rows)")
+    else:
+        data_size_limit = get_data_size_limit("benchmark_analysis")
+        print(f"Using CONFIGURED dataset size ({data_size_limit:,} rows)")
     
     print("Starting Comprehensive Model Benchmarking...")
     print(f"Models to test: {list(BEST_PARAMS.keys())}")
@@ -271,6 +274,7 @@ def main():
         print("Full dataset benchmarking completed!")
     else:
         print(f"To run on full dataset, use: python benchmark_analysis.py --full")
+        print(f"To use custom size, use: python benchmark_analysis.py --size <number>")
 
 if __name__ == "__main__":
     main()
