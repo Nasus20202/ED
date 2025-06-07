@@ -12,61 +12,33 @@ from sklearn.metrics import accuracy_score
 import warnings
 warnings.filterwarnings('ignore')
 
-# Load and prepare data
-DATA_DIR = "../data/"
-MAIN_DATA_FILE_NAME = f"{DATA_DIR}flights.csv"
+# Import centralized configuration
+from config import *
 
 def load_and_prepare_data(data_size_limit):
     """Load and prepare flight data with specified size limit"""
     main_data = pd.read_csv(MAIN_DATA_FILE_NAME).head(data_size_limit)
-    main_data["DELAYED"] = (main_data["ARRIVAL_DELAY"] > 15).astype(int)
-    TARGET = "DELAYED"
-    
-    categories = ["AIRLINE", "ORIGIN_AIRPORT", "DESTINATION_AIRPORT", "DAY_OF_WEEK", "MONTH", "TAIL_NUMBER"]
-    numerical = ["YEAR", "DAY", "FLIGHT_NUMBER", "SCHEDULED_DEPARTURE", "SCHEDULED_TIME", "DISTANCE", "SCHEDULED_ARRIVAL"]
+    main_data[TARGET] = (main_data["ARRIVAL_DELAY"] > DELAYED_THRESHOLD).astype(int)
     
     # Fill missing values and filter
-    main_data = main_data.fillna(0).dropna(subset=[TARGET])
+    main_data = main_data.fillna(FILL_NA_VALUE).dropna(subset=[TARGET])
     
     # Balance dataset
     delayed_flights = main_data[main_data[TARGET] == 1]
     non_delayed_flights = main_data[main_data[TARGET] == 0]
     min_samples = min(len(delayed_flights), len(non_delayed_flights))
     
-    balanced_delayed = delayed_flights.sample(n=min_samples, random_state=42)
-    balanced_non_delayed = non_delayed_flights.sample(n=min_samples, random_state=42)
+    balanced_delayed = delayed_flights.sample(n=min_samples, random_state=RANDOM_STATE)
+    balanced_non_delayed = non_delayed_flights.sample(n=min_samples, random_state=RANDOM_STATE)
     main_data = pd.concat([balanced_delayed, balanced_non_delayed]).reset_index(drop=True)
     
     # Encode categorical variables
-    X = main_data[categories + numerical].copy()
-    for col in categories:
+    X = main_data[CATEGORIES + NUMERICAL].copy()
+    for col in CATEGORIES:
         X[col] = X[col].astype("category").cat.codes
     
     y = main_data[TARGET]
     return X, y
-
-# Define parameter ranges for each model
-PARAM_RANGES = {
-    "RandomForest": {
-        "n_estimators": (10, 200),
-        "max_depth": (3, 20),
-        "min_samples_split": (2, 20),
-        "min_samples_leaf": (1, 10)
-    },
-    "LogisticRegression": {
-        "C": (0.01, 100.0),
-        "max_iter": (100, 2000)
-    },
-    "NeuralNetwork": {
-        "hidden_layer_size_1": (50, 200),
-        "hidden_layer_size_2": (20, 100),
-        "alpha": (0.0001, 0.01),
-        "max_iter": (200, 1000)
-    }
-}
-
-# Data size options
-DATA_SIZE_OPTIONS = [1000]
 
 def decode_individual(individual, model_type):
     """Decode genetic algorithm individual to model parameters"""
@@ -94,12 +66,15 @@ def decode_individual(individual, model_type):
 
 def create_model(model_type, params):
     """Create model instance with given parameters"""
+    base_params = {"random_state": RANDOM_STATE}
+    base_params.update(params)
+    
     if model_type == "RandomForest":
-        return RandomForestClassifier(random_state=42, **params)
+        return RandomForestClassifier(**base_params)
     elif model_type == "LogisticRegression":
-        return LogisticRegression(random_state=42, **params)
+        return LogisticRegression(**base_params)
     elif model_type == "NeuralNetwork":
-        return MLPClassifier(random_state=42, **params)
+        return MLPClassifier(**base_params)
 
 def evaluate_individual(individual, model_type, X, y):
     """Evaluate individual using cross-validation"""
@@ -122,13 +97,13 @@ def evaluate_individual(individual, model_type, X, y):
         model = create_model(model_type, params)
         
         # Cross-validation
-        scores = cross_val_score(model, X_sample, y_sample, cv=3, scoring='accuracy')
+        scores = cross_val_score(model, X_sample, y_sample, cv=CV_FOLDS, scoring=CV_SCORING)
         return (scores.mean(),)
         
     except Exception as e:
         return (0.0,)
 
-def optimize_model(model_type, X, y, generations=20, population_size=20):
+def optimize_model(model_type, X, y):
     """Optimize model hyperparameters using genetic algorithm"""
     print(f"\nOptimizing {model_type}...")
     
@@ -146,13 +121,14 @@ def optimize_model(model_type, X, y, generations=20, population_size=20):
     toolbox.register("population", tools.initRepeat, list, toolbox.individual)
     toolbox.register("evaluate", evaluate_individual, model_type=model_type, X=X, y=y)
     toolbox.register("mate", tools.cxTwoPoint)
-    toolbox.register("mutate", tools.mutGaussian, mu=0, sigma=0.1, indpb=0.2)
-    toolbox.register("select", tools.selTournament, tournsize=3)
+    toolbox.register("mutate", tools.mutGaussian, 
+                    mu=0, sigma=GA_CONFIG["mutation_sigma"], indpb=GA_CONFIG["mutation_indpb"])
+    toolbox.register("select", tools.selTournament, tournsize=GA_CONFIG["tournament_size"])
     
     # Run genetic algorithm
-    population = toolbox.population(n=population_size)
+    population = toolbox.population(n=GA_CONFIG["population_size"])
     
-    for gen in tqdm(range(generations), desc=f"Evolving {model_type}"):
+    for gen in tqdm(range(GA_CONFIG["generations"]), desc=f"Evolving {model_type}"):
         # Evaluate population
         fitnesses = list(map(toolbox.evaluate, population))
         for ind, fit in zip(population, fitnesses):
@@ -164,13 +140,13 @@ def optimize_model(model_type, X, y, generations=20, population_size=20):
         
         # Crossover and mutation
         for child1, child2 in zip(offspring[::2], offspring[1::2]):
-            if random.random() < 0.5:
+            if random.random() < GA_CONFIG["crossover_probability"]:
                 toolbox.mate(child1, child2)
                 del child1.fitness.values
                 del child2.fitness.values
         
         for mutant in offspring:
-            if random.random() < 0.2:
+            if random.random() < GA_CONFIG["mutation_probability"]:
                 toolbox.mutate(mutant)
                 del mutant.fitness.values
         
@@ -193,18 +169,20 @@ def optimize_model(model_type, X, y, generations=20, population_size=20):
 
 def main():
     """Main optimization function"""
+    # Validate configuration
+    validate_config()
+    
     print("Starting Genetic Algorithm Hyperparameter Tuning...")
+    print(f"Configuration: {GA_CONFIG['generations']} generations, {GA_CONFIG['population_size']} population")
     
     # Load full dataset for optimization
     X_full, y_full = load_and_prepare_data(300000)
     
-    models_to_optimize = ["RandomForest", "LogisticRegression", "NeuralNetwork"]
+    models_to_optimize = get_optimization_models()
     results = {}
     
     for model_type in models_to_optimize:
-        best_params, best_data_size, best_score = optimize_model(
-            model_type, X_full, y_full, generations=15, population_size=15
-        )
+        best_params, best_data_size, best_score = optimize_model(model_type, X_full, y_full)
         
         results[model_type] = {
             "best_parameters": best_params,
@@ -212,16 +190,25 @@ def main():
             "best_cv_score": float(best_score)
         }
         
-        print(f"\n{model_type} Results:")
-        print(f"Best Parameters: {best_params}")
-        print(f"Best Data Size: {best_data_size}")
-        print(f"Best CV Score: {best_score:.4f}")
+        if REPORTING["verbose"]:
+            print(f"\n{model_type} Results:")
+            print(f"Best Parameters: {best_params}")
+            print(f"Best Data Size: {best_data_size}")
+            print(f"Best CV Score: {best_score:.{REPORTING['precision_digits']}f}")
+    
+    # Add configuration info to results
+    results["configuration"] = {
+        "ga_config": GA_CONFIG,
+        "param_ranges": PARAM_RANGES,
+        "data_size_options": DATA_SIZE_OPTIONS,
+        "cv_folds": CV_FOLDS
+    }
     
     # Save results
-    with open("genetic_tuning_results.json", "w") as f:
+    with open(OUTPUT_FILES["genetic_tuning"], "w") as f:
         json.dump(results, f, indent=2)
     
-    print(f"\nOptimization complete! Results saved to genetic_tuning_results.json")
+    print(f"\nOptimization complete! Results saved to {OUTPUT_FILES['genetic_tuning']}")
     
     # Test best models
     print("\nTesting optimized models...")

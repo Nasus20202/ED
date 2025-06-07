@@ -10,28 +10,8 @@ from sklearn.metrics import accuracy_score
 import warnings
 warnings.filterwarnings('ignore')
 
-# Hardcoded best parameters from genetic optimization
-BEST_PARAMS = {
-    "RandomForest": {
-        "n_estimators": 150,
-        "max_depth": 15,
-        "min_samples_split": 5,
-        "min_samples_leaf": 2
-    },
-    "LogisticRegression": {
-        "C": 10.0,
-        "max_iter": 1500
-    },
-    "NeuralNetwork": {
-        "hidden_layer_sizes": (150, 75),
-        "alpha": 0.001,
-        "max_iter": 800
-    }
-}
-
-# Load and prepare data
-DATA_DIR = "../data/"
-MAIN_DATA_FILE_NAME = f"{DATA_DIR}flights.csv"
+# Import centralized configuration
+from config import *
 
 def get_dataset_size():
     """Get the total size of the dataset"""
@@ -47,26 +27,22 @@ def load_and_prepare_data(data_size_limit, excluded_categories=None, excluded_nu
         main_data = pd.read_csv(MAIN_DATA_FILE_NAME).head(data_size_limit)
         print(f"Using limited dataset: {len(main_data):,} rows")
     
-    main_data["DELAYED"] = (main_data["ARRIVAL_DELAY"] > 15).astype(int)
-    TARGET = "DELAYED"
-    
-    all_categories = ["AIRLINE", "ORIGIN_AIRPORT", "DESTINATION_AIRPORT", "DAY_OF_WEEK", "MONTH", "TAIL_NUMBER"]
-    all_numerical = ["YEAR", "DAY", "FLIGHT_NUMBER", "SCHEDULED_DEPARTURE", "SCHEDULED_TIME", "DISTANCE", "SCHEDULED_ARRIVAL"]
+    main_data[TARGET] = (main_data["ARRIVAL_DELAY"] > DELAYED_THRESHOLD).astype(int)
     
     # Remove excluded features
-    categories = [col for col in all_categories if col not in (excluded_categories or [])]
-    numerical = [col for col in all_numerical if col not in (excluded_numerical or [])]
+    categories = [col for col in CATEGORIES if col not in (excluded_categories or [])]
+    numerical = [col for col in NUMERICAL if col not in (excluded_numerical or [])]
     
     # Fill missing values and filter
-    main_data = main_data.fillna(0).dropna(subset=[TARGET])
+    main_data = main_data.fillna(FILL_NA_VALUE).dropna(subset=[TARGET])
     
     # Balance dataset
     delayed_flights = main_data[main_data[TARGET] == 1]
     non_delayed_flights = main_data[main_data[TARGET] == 0]
     min_samples = min(len(delayed_flights), len(non_delayed_flights))
     
-    balanced_delayed = delayed_flights.sample(n=min_samples, random_state=42)
-    balanced_non_delayed = non_delayed_flights.sample(n=min_samples, random_state=42)
+    balanced_delayed = delayed_flights.sample(n=min_samples, random_state=RANDOM_STATE)
+    balanced_non_delayed = non_delayed_flights.sample(n=min_samples, random_state=RANDOM_STATE)
     main_data = pd.concat([balanced_delayed, balanced_non_delayed]).reset_index(drop=True)
     
     # Encode categorical variables
@@ -79,18 +55,21 @@ def load_and_prepare_data(data_size_limit, excluded_categories=None, excluded_nu
 
 def create_model(model_type, params):
     """Create model instance with given parameters"""
+    base_params = {"random_state": RANDOM_STATE}
+    base_params.update(params)
+    
     if model_type == "RandomForest":
-        return RandomForestClassifier(random_state=42, **params)
+        return RandomForestClassifier(**base_params)
     elif model_type == "LogisticRegression":
-        return LogisticRegression(random_state=42, **params)
+        return LogisticRegression(**base_params)
     elif model_type == "NeuralNetwork":
-        return MLPClassifier(random_state=42, **params)
+        return MLPClassifier(**base_params)
 
 def benchmark_baseline(data_size_limit):
     """Benchmark models with all features"""
     print("=== BASELINE BENCHMARK (All Features) ===")
     X, y, categories, numerical = load_and_prepare_data(data_size_limit)
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=TEST_SIZE, random_state=RANDOM_STATE)
     
     results = {}
     
@@ -107,9 +86,10 @@ def benchmark_baseline(data_size_limit):
             "numerical": numerical
         }
         
-        print(f"\n{model_name}:")
-        print(f"Accuracy: {acc:.4f}")
-        print(f"Features used: {len(categories + numerical)}")
+        if REPORTING["verbose"]:
+            print(f"\n{model_name}:")
+            print(f"Accuracy: {acc:.{REPORTING['precision_digits']}f}")
+            print(f"Features used: {len(categories + numerical)}")
     
     return results
 
@@ -117,35 +97,9 @@ def benchmark_feature_removal(data_size_limit):
     """Benchmark models with systematic feature removal"""
     print("\n=== FEATURE REMOVAL ANALYSIS ===")
     
-    all_categories = ["AIRLINE", "ORIGIN_AIRPORT", "DESTINATION_AIRPORT", "DAY_OF_WEEK", "MONTH"]
-    all_numerical = ["YEAR", "DAY", "FLIGHT_NUMBER", "SCHEDULED_DEPARTURE", "SCHEDULED_TIME", "DISTANCE", "SCHEDULED_ARRIVAL"]
-    
-    removal_scenarios = [
-        # Remove single category features
-        {"name": "No AIRLINE", "excluded_categories": ["AIRLINE"], "excluded_numerical": []},
-        {"name": "No ORIGIN_AIRPORT", "excluded_categories": ["ORIGIN_AIRPORT"], "excluded_numerical": []},
-        {"name": "No DESTINATION_AIRPORT", "excluded_categories": ["DESTINATION_AIRPORT"], "excluded_numerical": []},
-        {"name": "No DAY_OF_WEEK", "excluded_categories": ["DAY_OF_WEEK"], "excluded_numerical": []},
-        {"name": "No MONTH", "excluded_categories": ["MONTH"], "excluded_numerical": []},
-        
-        # Remove single numerical features
-        {"name": "No DISTANCE", "excluded_categories": [], "excluded_numerical": ["DISTANCE"]},
-        {"name": "No SCHEDULED_DEPARTURE", "excluded_categories": [], "excluded_numerical": ["SCHEDULED_DEPARTURE"]},
-        {"name": "No SCHEDULED_TIME", "excluded_categories": [], "excluded_numerical": ["SCHEDULED_TIME"]},
-        
-        # Remove multiple features
-        {"name": "No Airport Info", "excluded_categories": ["ORIGIN_AIRPORT", "DESTINATION_AIRPORT"], "excluded_numerical": []},
-        {"name": "No Time Info", "excluded_categories": ["DAY_OF_WEEK", "MONTH"], "excluded_numerical": ["SCHEDULED_DEPARTURE", "SCHEDULED_TIME"]},
-        {"name": "Categories Only", "excluded_categories": [], "excluded_numerical": all_numerical},
-        {"name": "Numerical Only", "excluded_categories": all_categories, "excluded_numerical": []},
-        
-        # Minimal feature sets
-        {"name": "Essential Only", "excluded_categories": ["YEAR", "DAY", "FLIGHT_NUMBER"], "excluded_numerical": ["YEAR", "DAY", "FLIGHT_NUMBER", "SCHEDULED_ARRIVAL"]},
-    ]
-    
     feature_analysis_results = {}
     
-    for scenario in tqdm(removal_scenarios, desc="Testing scenarios"):
+    for scenario in tqdm(FEATURE_REMOVAL_SCENARIOS, desc="Testing scenarios"):
         scenario_name = scenario["name"]
         excluded_cat = scenario["excluded_categories"]
         excluded_num = scenario["excluded_numerical"]
@@ -159,7 +113,7 @@ def benchmark_feature_removal(data_size_limit):
                 print(f"Skipping {scenario_name}: No features remaining")
                 continue
                 
-            X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+            X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=TEST_SIZE, random_state=RANDOM_STATE)
             
             scenario_results = {}
             
@@ -257,11 +211,18 @@ def save_results(baseline_results, feature_analysis_results, feature_importance,
         "metadata": {
             "data_size_limit": data_size_limit,
             "actual_data_size": "full" if data_size_limit == -1 else data_size_limit,
-            "best_parameters_used": BEST_PARAMS
+            "best_parameters_used": BEST_PARAMS,
+            "configuration": {
+                "delayed_threshold": DELAYED_THRESHOLD,
+                "test_size": TEST_SIZE,
+                "random_state": RANDOM_STATE,
+                "categories": CATEGORIES,
+                "numerical": NUMERICAL
+            }
         }
     }
     
-    filename = "benchmark_analysis_results_full.json" if data_size_limit == -1 else "benchmark_analysis_results.json"
+    filename = OUTPUT_FILES["benchmark_analysis_full"] if data_size_limit == -1 else OUTPUT_FILES["benchmark_analysis"]
     with open(filename, "w") as f:
         json.dump(all_results, f, indent=2)
     
@@ -269,9 +230,12 @@ def save_results(baseline_results, feature_analysis_results, feature_importance,
 
 def main():
     """Main benchmarking function"""
+    # Validate configuration
+    validate_config()
+    
     parser = argparse.ArgumentParser(description="Benchmark flight delay prediction models")
     parser.add_argument("--full", action="store_true", help="Use full dataset instead of limited size")
-    parser.add_argument("--size", type=int, default=10000, help="Dataset size limit (default: 10000)")
+    parser.add_argument("--size", type=int, default=DATA_SIZE_LIMIT, help=f"Dataset size limit (default: {DATA_SIZE_LIMIT})")
     
     args = parser.parse_args()
     
