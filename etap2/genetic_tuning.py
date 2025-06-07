@@ -11,6 +11,9 @@ from sklearn.model_selection import cross_val_score, train_test_split
 from sklearn.metrics import accuracy_score
 import warnings
 warnings.filterwarnings('ignore')
+import matplotlib.pyplot as plt
+import seaborn as sns
+import os
 
 # Import centralized configuration
 from config import *
@@ -103,7 +106,7 @@ def evaluate_individual(individual, model_type, X, y):
     except Exception as e:
         return (0.0,)
 
-def optimize_model(model_type, X, y):
+def optimize_model(model_type, X, y, img_dir):
     """Optimize model hyperparameters using genetic algorithm"""
     print(f"\nOptimizing {model_type}...")
     
@@ -127,12 +130,14 @@ def optimize_model(model_type, X, y):
     
     # Run genetic algorithm
     population = toolbox.population(n=GA_CONFIG["population_size"])
-    
+    best_fitness_per_gen = []
     for gen in tqdm(range(GA_CONFIG["generations"]), desc=f"Evolving {model_type}"):
         # Evaluate population
         fitnesses = list(map(toolbox.evaluate, population))
         for ind, fit in zip(population, fitnesses):
             ind.fitness.values = fit
+        # Track best fitness
+        best_fitness_per_gen.append(max(f[0] for f in fitnesses))
         
         # Selection
         offspring = toolbox.select(population, len(population))
@@ -165,10 +170,44 @@ def optimize_model(model_type, X, y):
     data_size_idx = min(data_size_idx, len(DATA_SIZE_OPTIONS) - 1)
     best_data_size = DATA_SIZE_OPTIONS[data_size_idx]
     
+    # --- Visualization: Fitness evolution ---
+    plt.figure(figsize=(8, 4))
+    plt.plot(best_fitness_per_gen, marker='o')
+    plt.title(f"Best Fitness Evolution: {model_type}")
+    plt.xlabel("Generation")
+    plt.ylabel("Best CV Accuracy")
+    plt.tight_layout()
+    plt.savefig(os.path.join(img_dir, f"ga_fitness_evolution_{model_type}.png"))
+    plt.close()
+    # --- Visualization: Parameter distribution of best individual ---
+    param_names = list(PARAM_RANGES[model_type].keys())
+    param_values = list(decode_individual(best_ind[:-1], model_type).values())
+    # Flatten tuples (e.g., hidden_layer_sizes) for plotting
+    flat_names = []
+    flat_values = []
+    for name, value in zip(param_names, param_values):
+        if isinstance(value, tuple):
+            for i, v in enumerate(value):
+                flat_names.append(f"{name}_{i+1}")
+                flat_values.append(v)
+        else:
+            flat_names.append(name)
+            flat_values.append(value)
+    plt.figure(figsize=(8, 4))
+    sns.barplot(x=flat_names, y=flat_values, palette="mako")
+    plt.title(f"Best Parameters: {model_type}")
+    plt.ylabel("Value")
+    plt.tight_layout()
+    plt.savefig(os.path.join(img_dir, f"ga_best_params_{model_type}.png"))
+    plt.close()
     return best_params, best_data_size, best_ind.fitness.values[0]
 
 def main():
     """Main optimization function"""
+    # Ensure img directory exists
+    img_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), './img'))
+    os.makedirs(img_dir, exist_ok=True)
+    
     # Validate configuration
     validate_config()
     
@@ -183,7 +222,7 @@ def main():
     results = {}
     
     for model_type in models_to_optimize:
-        best_params, best_data_size, best_score = optimize_model(model_type, X_full, y_full)
+        best_params, best_data_size, best_score = optimize_model(model_type, X_full, y_full, img_dir)
         
         results[model_type] = {
             "best_parameters": best_params,
@@ -220,12 +259,22 @@ def main():
     
     test_results = {}
     for model_type, result in results.items():
+        if model_type not in PARAM_RANGES:
+            continue
         model = create_model(model_type, result["best_parameters"])
         model.fit(X_train, y_train)
         y_pred = model.predict(X_val)
         acc = accuracy_score(y_val, y_pred)
         test_results[model_type] = acc
         print(f"{model_type}: {acc:.4f}")
+        # --- Visualization: Confusion matrix ---
+        from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
+        cm = confusion_matrix(y_val, y_pred)
+        disp = ConfusionMatrixDisplay(confusion_matrix=cm)
+        disp.plot(cmap="Blues")
+        plt.title(f"Confusion Matrix: {model_type}")
+        plt.savefig(os.path.join(img_dir, f"ga_confusion_matrix_{model_type}.png"))
+        plt.close()
     
     print(f"\nBest performing model: {max(test_results, key=test_results.get)} ({max(test_results.values()):.4f})")
 

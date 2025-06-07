@@ -716,11 +716,9 @@
     },
     "Numerical Only": {
       "RandomForest": {
-        "accuracy": 0.6027190332326284,
-        "features_used": 8,
-        "categories_used": [
-          "TAIL_NUMBER"
-        ],
+        "accuracy": 0.5861027190332326,
+        "features_used": 7,
+        "categories_used": [],
         "numerical_used": [
           "YEAR",
           "DAY",
@@ -732,11 +730,9 @@
         ]
       },
       "LogisticRegression": {
-        "accuracy": 0.5770392749244713,
-        "features_used": 8,
-        "categories_used": [
-          "TAIL_NUMBER"
-        ],
+        "accuracy": 0.5709969788519638,
+        "features_used": 7,
+        "categories_used": [],
         "numerical_used": [
           "YEAR",
           "DAY",
@@ -748,11 +744,9 @@
         ]
       },
       "NeuralNetwork": {
-        "accuracy": 0.5287009063444109,
-        "features_used": 8,
-        "categories_used": [
-          "TAIL_NUMBER"
-        ],
+        "accuracy": 0.48489425981873113,
+        "features_used": 7,
+        "categories_used": [],
         "numerical_used": [
           "YEAR",
           "DAY",
@@ -894,6 +888,28 @@
         "alpha": 0.001,
         "max_iter": 800
       }
+    },
+    "configuration": {
+      "delayed_threshold": 15,
+      "test_size": 0.2,
+      "random_state": 42,
+      "categories": [
+        "AIRLINE",
+        "ORIGIN_AIRPORT",
+        "DESTINATION_AIRPORT",
+        "DAY_OF_WEEK",
+        "MONTH",
+        "TAIL_NUMBER"
+      ],
+      "numerical": [
+        "YEAR",
+        "DAY",
+        "FLIGHT_NUMBER",
+        "SCHEDULED_DEPARTURE",
+        "SCHEDULED_TIME",
+        "DISTANCE",
+        "SCHEDULED_ARRIVAL"
+      ]
     }
   }
 }

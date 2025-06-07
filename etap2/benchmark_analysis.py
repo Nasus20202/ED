@@ -6,8 +6,11 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.neural_network import MLPClassifier
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, confusion_matrix, ConfusionMatrixDisplay
 import warnings
+import matplotlib.pyplot as plt
+import seaborn as sns
+import os
 warnings.filterwarnings('ignore')
 
 # Import centralized configuration
@@ -146,7 +149,7 @@ def benchmark_feature_removal(data_size_limit):
     
     return feature_analysis_results
 
-def analyze_feature_importance(data_size_limit):
+def analyze_feature_importance(data_size_limit, img_dir):
     """Analyze which features are most important using Random Forest"""
     print("\n=== FEATURE IMPORTANCE ANALYSIS ===")
     
@@ -168,9 +171,20 @@ def analyze_feature_importance(data_size_limit):
     for i, (feature, importance) in enumerate(feature_importance):
         print(f"{i+1:2d}. {feature:20s}: {importance:.4f}")
     
+    # --- Visualization: Feature importances ---
+    plt.figure(figsize=(10, 5))
+    sns.barplot(x=[f[0] for f in feature_importance], y=[f[1] for f in feature_importance], palette="crest")
+    plt.title("Random Forest Feature Importances")
+    plt.ylabel("Importance")
+    plt.xlabel("Feature")
+    plt.xticks(rotation=45, ha="right")
+    plt.tight_layout()
+    plt.savefig(os.path.join(img_dir, "feature_importances.png"))
+    plt.close()
+    
     return feature_importance
 
-def create_performance_summary(baseline_results, feature_analysis_results):
+def create_performance_summary(baseline_results, feature_analysis_results, img_dir):
     """Create comprehensive performance summary"""
     print("\n=== PERFORMANCE SUMMARY ===")
     
@@ -191,6 +205,24 @@ def create_performance_summary(baseline_results, feature_analysis_results):
         features = results.get("RandomForest", {}).get("features_used", 0)
         
         print(f"{scenario:<20s} {rf_acc:<8.4f} {lr_acc:<8.4f} {nn_acc:<8.4f} {features:<10d}")
+    
+    # --- Visualization: Feature removal impact ---
+    scenarios = list(feature_analysis_results.keys())
+    rf_accs = [feature_analysis_results[s].get("RandomForest", {}).get("accuracy", 0.0) for s in scenarios]
+    lr_accs = [feature_analysis_results[s].get("LogisticRegression", {}).get("accuracy", 0.0) for s in scenarios]
+    nn_accs = [feature_analysis_results[s].get("NeuralNetwork", {}).get("accuracy", 0.0) for s in scenarios]
+    plt.figure(figsize=(12, 6))
+    x = range(len(scenarios))
+    plt.bar(x, rf_accs, width=0.25, label="RandomForest")
+    plt.bar([i+0.25 for i in x], lr_accs, width=0.25, label="LogisticRegression")
+    plt.bar([i+0.5 for i in x], nn_accs, width=0.25, label="NeuralNetwork")
+    plt.xticks([i+0.25 for i in x], scenarios, rotation=45, ha="right")
+    plt.ylabel("Accuracy")
+    plt.title("Accuracy by Feature Removal Scenario")
+    plt.legend()
+    plt.tight_layout()
+    plt.savefig(os.path.join(img_dir, "feature_removal_impact.png"))
+    plt.close()
     
     # Best and worst scenarios
     print("\nBest Performing Scenarios:")
@@ -230,6 +262,10 @@ def save_results(baseline_results, feature_analysis_results, feature_importance,
 
 def main():
     """Main benchmarking function"""
+    # Ensure img directory exists
+    img_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), './img'))
+    os.makedirs(img_dir, exist_ok=True)
+    
     # Validate configuration
     validate_config()
     
@@ -260,13 +296,26 @@ def main():
     feature_analysis_results = benchmark_feature_removal(data_size_limit)
     
     # Analyze feature importance
-    feature_importance = analyze_feature_importance(data_size_limit)
+    feature_importance = analyze_feature_importance(data_size_limit, img_dir)
     
     # Create summary
-    create_performance_summary(baseline_results, feature_analysis_results)
+    create_performance_summary(baseline_results, feature_analysis_results, img_dir)
     
     # Save results
     save_results(baseline_results, feature_analysis_results, feature_importance, data_size_limit)
+    
+    # Show confusion matrix for best model (RandomForest)
+    X, y, categories, numerical = load_and_prepare_data(data_size_limit)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=TEST_SIZE, random_state=RANDOM_STATE)
+    best_model = create_model("RandomForest", BEST_PARAMS["RandomForest"])
+    best_model.fit(X_train, y_train)
+    y_pred = best_model.predict(X_test)
+    cm = confusion_matrix(y_test, y_pred)
+    disp = ConfusionMatrixDisplay(confusion_matrix=cm)
+    disp.plot(cmap="Blues")
+    plt.title("Confusion Matrix: RandomForest (Best Model)")
+    plt.savefig(os.path.join(img_dir, "confusion_matrix_best_model.png"))
+    plt.close()
     
     print("\nBenchmarking complete!")
     
