@@ -1,0 +1,32 @@
+{
+  "RandomForest": {
+    "best_parameters": {
+      "n_estimators": 165,
+      "max_depth": 17,
+      "min_samples_split": 14,
+      "min_samples_leaf": 2
+    },
+    "best_data_size": 1000,
+    "best_cv_score": 0.657963352574131
+  },
+  "LogisticRegression": {
+    "best_parameters": {
+      "C": 34.0739604245577,
+      "max_iter": 912
+    },
+    "best_data_size": 1000,
+    "best_cv_score": 0.6320032607457757
+  },
+  "NeuralNetwork": {
+    "best_parameters": {
+      "hidden_layer_sizes": [
+        135,
+        20
+      ],
+      "alpha": 0.007314074379494969,
+      "max_iter": 933
+    },
+    "best_data_size": 1000,
+    "best_cv_score": 0.5519771268274262
+  }
+}

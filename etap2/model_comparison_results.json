@@ -1,0 +1,172 @@
+{
+  "dataset_info": {
+    "shape": [
+      100000,
+      13
+    ],
+    "target_distribution": {
+      "1": 50000,
+      "0": 50000
+    },
+    "test_size": 0.2
+  },
+  "model_results": {
+    "Decision Tree": {
+      "accuracy": 0.54835,
+      "classification_report": {
+        "0": {
+          "precision": 0.5467027460412909,
+          "recall": 0.5474159558454591,
+          "f1-score": 0.54705911848769,
+          "support": 9965.0
+        },
+        "1": {
+          "precision": 0.5499900219517062,
+          "recall": 0.549277528649726,
+          "f1-score": 0.5496335443984643,
+          "support": 10035.0
+        },
+        "accuracy": 0.54835,
+        "macro avg": {
+          "precision": 0.5483463839964986,
+          "recall": 0.5483467422475925,
+          "f1-score": 0.5483463314430772,
+          "support": 20000.0
+        },
+        "weighted avg": {
+          "precision": 0.5483521367293417,
+          "recall": 0.54835,
+          "f1-score": 0.5483508366884211,
+          "support": 20000.0
+        }
+      }
+    },
+    "Random Forest": {
+      "accuracy": 0.6157,
+      "classification_report": {
+        "0": {
+          "precision": 0.6122770716326732,
+          "recall": 0.6235825388861014,
+          "f1-score": 0.617878094859302,
+          "support": 9965.0
+        },
+        "1": {
+          "precision": 0.619226474469597,
+          "recall": 0.6078724464374688,
+          "f1-score": 0.6134969325153374,
+          "support": 10035.0
+        },
+        "accuracy": 0.6157,
+        "macro avg": {
+          "precision": 0.615751773051135,
+          "recall": 0.6157274926617851,
+          "f1-score": 0.6156875136873197,
+          "support": 20000.0
+        },
+        "weighted avg": {
+          "precision": 0.6157639345060998,
+          "recall": 0.6157,
+          "f1-score": 0.6156798466532178,
+          "support": 20000.0
+        }
+      }
+    },
+    "Logistic Regression": {
+      "accuracy": 0.5907,
+      "classification_report": {
+        "0": {
+          "precision": 0.5908673000306467,
+          "recall": 0.580431510286001,
+          "f1-score": 0.5856029158651412,
+          "support": 9965.0
+        },
+        "1": {
+          "precision": 0.5905396141416119,
+          "recall": 0.600896860986547,
+          "f1-score": 0.5956732194013632,
+          "support": 10035.0
+        },
+        "accuracy": 0.5907,
+        "macro avg": {
+          "precision": 0.5907034570861294,
+          "recall": 0.590664185636274,
+          "f1-score": 0.5906380676332522,
+          "support": 20000.0
+        },
+        "weighted avg": {
+          "precision": 0.5907028836358235,
+          "recall": 0.5907,
+          "f1-score": 0.5906556906644406,
+          "support": 20000.0
+        }
+      }
+    },
+    "KNN": {
+      "accuracy": 0.553,
+      "classification_report": {
+        "0": {
+          "precision": 0.5523439893780002,
+          "recall": 0.5426994480682389,
+          "f1-score": 0.5474792468110954,
+          "support": 9965.0
+        },
+        "1": {
+          "precision": 0.5536291507493388,
+          "recall": 0.5632286995515695,
+          "f1-score": 0.5583876704208655,
+          "support": 10035.0
+        },
+        "accuracy": 0.553,
+        "macro avg": {
+          "precision": 0.5529865700636696,
+          "recall": 0.5529640738099042,
+          "f1-score": 0.5529334586159804,
+          "support": 20000.0
+        },
+        "weighted avg": {
+          "precision": 0.5529888190960693,
+          "recall": 0.553,
+          "f1-score": 0.5529525483572976,
+          "support": 20000.0
+        }
+      }
+    },
+    "Neural Network": {
+      "accuracy": 0.5932,
+      "classification_report": {
+        "0": {
+          "precision": 0.6003952135250851,
+          "recall": 0.5488208730556949,
+          "f1-score": 0.5734507706826046,
+          "support": 9965.0
+        },
+        "1": {
+          "precision": 0.5871820769442659,
+          "recall": 0.6372695565520677,
+          "f1-score": 0.6112013762783141,
+          "support": 10035.0
+        },
+        "accuracy": 0.5932,
+        "macro avg": {
+          "precision": 0.5937886452346754,
+          "recall": 0.5930452148038814,
+          "f1-score": 0.5923260734804594,
+          "support": 20000.0
+        },
+        "weighted avg": {
+          "precision": 0.5937655222456591,
+          "recall": 0.5932,
+          "f1-score": 0.5923921370402518,
+          "support": 20000.0
+        }
+      }
+    }
+  },
+  "summary": {
+    "Decision Tree": 0.54835,
+    "Random Forest": 0.6157,
+    "Logistic Regression": 0.5907,
+    "KNN": 0.553,
+    "Neural Network": 0.5932
+  }
+}

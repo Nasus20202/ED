@@ -1,0 +1,899 @@
+{
+  "baseline_results": {
+    "RandomForest": {
+      "accuracy": 0.622356495468278,
+      "features_used": 13,
+      "categories": [
+        "AIRLINE",
+        "ORIGIN_AIRPORT",
+        "DESTINATION_AIRPORT",
+        "DAY_OF_WEEK",
+        "MONTH",
+        "TAIL_NUMBER"
+      ],
+      "numerical": [
+        "YEAR",
+        "DAY",
+        "FLIGHT_NUMBER",
+        "SCHEDULED_DEPARTURE",
+        "SCHEDULED_TIME",
+        "DISTANCE",
+        "SCHEDULED_ARRIVAL"
+      ]
+    },
+    "LogisticRegression": {
+      "accuracy": 0.5861027190332326,
+      "features_used": 13,
+      "categories": [
+        "AIRLINE",
+        "ORIGIN_AIRPORT",
+        "DESTINATION_AIRPORT",
+        "DAY_OF_WEEK",
+        "MONTH",
+        "TAIL_NUMBER"
+      ],
+      "numerical": [
+        "YEAR",
+        "DAY",
+        "FLIGHT_NUMBER",
+        "SCHEDULED_DEPARTURE",
+        "SCHEDULED_TIME",
+        "DISTANCE",
+        "SCHEDULED_ARRIVAL"
+      ]
+    },
+    "NeuralNetwork": {
+      "accuracy": 0.5422960725075529,
+      "features_used": 13,
+      "categories": [
+        "AIRLINE",
+        "ORIGIN_AIRPORT",
+        "DESTINATION_AIRPORT",
+        "DAY_OF_WEEK",
+        "MONTH",
+        "TAIL_NUMBER"
+      ],
+      "numerical": [
+        "YEAR",
+        "DAY",
+        "FLIGHT_NUMBER",
+        "SCHEDULED_DEPARTURE",
+        "SCHEDULED_TIME",
+        "DISTANCE",
+        "SCHEDULED_ARRIVAL"
+      ]
+    }
+  },
+  "feature_analysis_results": {
+    "No AIRLINE": {
+      "RandomForest": {
+        "accuracy": 0.6117824773413897,
+        "features_used": 12,
+        "categories_used": [
+          "ORIGIN_AIRPORT",
+          "DESTINATION_AIRPORT",
+          "DAY_OF_WEEK",
+          "MONTH",
+          "TAIL_NUMBER"
+        ],
+        "numerical_used": [
+          "YEAR",
+          "DAY",
+          "FLIGHT_NUMBER",
+          "SCHEDULED_DEPARTURE",
+          "SCHEDULED_TIME",
+          "DISTANCE",
+          "SCHEDULED_ARRIVAL"
+        ]
+      },
+      "LogisticRegression": {
+        "accuracy": 0.5800604229607251,
+        "features_used": 12,
+        "categories_used": [
+          "ORIGIN_AIRPORT",
+          "DESTINATION_AIRPORT",
+          "DAY_OF_WEEK",
+          "MONTH",
+          "TAIL_NUMBER"
+        ],
+        "numerical_used": [
+          "YEAR",
+          "DAY",
+          "FLIGHT_NUMBER",
+          "SCHEDULED_DEPARTURE",
+          "SCHEDULED_TIME",
+          "DISTANCE",
+          "SCHEDULED_ARRIVAL"
+        ]
+      },
+      "NeuralNetwork": {
+        "accuracy": 0.5196374622356495,
+        "features_used": 12,
+        "categories_used": [
+          "ORIGIN_AIRPORT",
+          "DESTINATION_AIRPORT",
+          "DAY_OF_WEEK",
+          "MONTH",
+          "TAIL_NUMBER"
+        ],
+        "numerical_used": [
+          "YEAR",
+          "DAY",
+          "FLIGHT_NUMBER",
+          "SCHEDULED_DEPARTURE",
+          "SCHEDULED_TIME",
+          "DISTANCE",
+          "SCHEDULED_ARRIVAL"
+        ]
+      }
+    },
+    "No ORIGIN_AIRPORT": {
+      "RandomForest": {
+        "accuracy": 0.6299093655589124,
+        "features_used": 12,
+        "categories_used": [
+          "AIRLINE",
+          "DESTINATION_AIRPORT",
+          "DAY_OF_WEEK",
+          "MONTH",
+          "TAIL_NUMBER"
+        ],
+        "numerical_used": [
+          "YEAR",
+          "DAY",
+          "FLIGHT_NUMBER",
+          "SCHEDULED_DEPARTURE",
+          "SCHEDULED_TIME",
+          "DISTANCE",
+          "SCHEDULED_ARRIVAL"
+        ]
+      },
+      "LogisticRegression": {
+        "accuracy": 0.5845921450151057,
+        "features_used": 12,
+        "categories_used": [
+          "AIRLINE",
+          "DESTINATION_AIRPORT",
+          "DAY_OF_WEEK",
+          "MONTH",
+          "TAIL_NUMBER"
+        ],
+        "numerical_used": [
+          "YEAR",
+          "DAY",
+          "FLIGHT_NUMBER",
+          "SCHEDULED_DEPARTURE",
+          "SCHEDULED_TIME",
+          "DISTANCE",
+          "SCHEDULED_ARRIVAL"
+        ]
+      },
+      "NeuralNetwork": {
+        "accuracy": 0.5226586102719033,
+        "features_used": 12,
+        "categories_used": [
+          "AIRLINE",
+          "DESTINATION_AIRPORT",
+          "DAY_OF_WEEK",
+          "MONTH",
+          "TAIL_NUMBER"
+        ],
+        "numerical_used": [
+          "YEAR",
+          "DAY",
+          "FLIGHT_NUMBER",
+          "SCHEDULED_DEPARTURE",
+          "SCHEDULED_TIME",
+          "DISTANCE",
+          "SCHEDULED_ARRIVAL"
+        ]
+      }
+    },
+    "No DESTINATION_AIRPORT": {
+      "RandomForest": {
+        "accuracy": 0.6329305135951662,
+        "features_used": 12,
+        "categories_used": [
+          "AIRLINE",
+          "ORIGIN_AIRPORT",
+          "DAY_OF_WEEK",
+          "MONTH",
+          "TAIL_NUMBER"
+        ],
+        "numerical_used": [
+          "YEAR",
+          "DAY",
+          "FLIGHT_NUMBER",
+          "SCHEDULED_DEPARTURE",
+          "SCHEDULED_TIME",
+          "DISTANCE",
+          "SCHEDULED_ARRIVAL"
+        ]
+      },
+      "LogisticRegression": {
+        "accuracy": 0.5800604229607251,
+        "features_used": 12,
+        "categories_used": [
+          "AIRLINE",
+          "ORIGIN_AIRPORT",
+          "DAY_OF_WEEK",
+          "MONTH",
+          "TAIL_NUMBER"
+        ],
+        "numerical_used": [
+          "YEAR",
+          "DAY",
+          "FLIGHT_NUMBER",
+          "SCHEDULED_DEPARTURE",
+          "SCHEDULED_TIME",
+          "DISTANCE",
+          "SCHEDULED_ARRIVAL"
+        ]
+      },
+      "NeuralNetwork": {
+        "accuracy": 0.5574018126888217,
+        "features_used": 12,
+        "categories_used": [
+          "AIRLINE",
+          "ORIGIN_AIRPORT",
+          "DAY_OF_WEEK",
+          "MONTH",
+          "TAIL_NUMBER"
+        ],
+        "numerical_used": [
+          "YEAR",
+          "DAY",
+          "FLIGHT_NUMBER",
+          "SCHEDULED_DEPARTURE",
+          "SCHEDULED_TIME",
+          "DISTANCE",
+          "SCHEDULED_ARRIVAL"
+        ]
+      }
+    },
+    "No DAY_OF_WEEK": {
+      "RandomForest": {
+        "accuracy": 0.6148036253776435,
+        "features_used": 12,
+        "categories_used": [
+          "AIRLINE",
+          "ORIGIN_AIRPORT",
+          "DESTINATION_AIRPORT",
+          "MONTH",
+          "TAIL_NUMBER"
+        ],
+        "numerical_used": [
+          "YEAR",
+          "DAY",
+          "FLIGHT_NUMBER",
+          "SCHEDULED_DEPARTURE",
+          "SCHEDULED_TIME",
+          "DISTANCE",
+          "SCHEDULED_ARRIVAL"
+        ]
+      },
+      "LogisticRegression": {
+        "accuracy": 0.5861027190332326,
+        "features_used": 12,
+        "categories_used": [
+          "AIRLINE",
+          "ORIGIN_AIRPORT",
+          "DESTINATION_AIRPORT",
+          "MONTH",
+          "TAIL_NUMBER"
+        ],
+        "numerical_used": [
+          "YEAR",
+          "DAY",
+          "FLIGHT_NUMBER",
+          "SCHEDULED_DEPARTURE",
+          "SCHEDULED_TIME",
+          "DISTANCE",
+          "SCHEDULED_ARRIVAL"
+        ]
+      },
+      "NeuralNetwork": {
+        "accuracy": 0.5302114803625377,
+        "features_used": 12,
+        "categories_used": [
+          "AIRLINE",
+          "ORIGIN_AIRPORT",
+          "DESTINATION_AIRPORT",
+          "MONTH",
+          "TAIL_NUMBER"
+        ],
+        "numerical_used": [
+          "YEAR",
+          "DAY",
+          "FLIGHT_NUMBER",
+          "SCHEDULED_DEPARTURE",
+          "SCHEDULED_TIME",
+          "DISTANCE",
+          "SCHEDULED_ARRIVAL"
+        ]
+      }
+    },
+    "No MONTH": {
+      "RandomForest": {
+        "accuracy": 0.6148036253776435,
+        "features_used": 12,
+        "categories_used": [
+          "AIRLINE",
+          "ORIGIN_AIRPORT",
+          "DESTINATION_AIRPORT",
+          "DAY_OF_WEEK",
+          "TAIL_NUMBER"
+        ],
+        "numerical_used": [
+          "YEAR",
+          "DAY",
+          "FLIGHT_NUMBER",
+          "SCHEDULED_DEPARTURE",
+          "SCHEDULED_TIME",
+          "DISTANCE",
+          "SCHEDULED_ARRIVAL"
+        ]
+      },
+      "LogisticRegression": {
+        "accuracy": 0.5861027190332326,
+        "features_used": 12,
+        "categories_used": [
+          "AIRLINE",
+          "ORIGIN_AIRPORT",
+          "DESTINATION_AIRPORT",
+          "DAY_OF_WEEK",
+          "TAIL_NUMBER"
+        ],
+        "numerical_used": [
+          "YEAR",
+          "DAY",
+          "FLIGHT_NUMBER",
+          "SCHEDULED_DEPARTURE",
+          "SCHEDULED_TIME",
+          "DISTANCE",
+          "SCHEDULED_ARRIVAL"
+        ]
+      },
+      "NeuralNetwork": {
+        "accuracy": 0.5302114803625377,
+        "features_used": 12,
+        "categories_used": [
+          "AIRLINE",
+          "ORIGIN_AIRPORT",
+          "DESTINATION_AIRPORT",
+          "DAY_OF_WEEK",
+          "TAIL_NUMBER"
+        ],
+        "numerical_used": [
+          "YEAR",
+          "DAY",
+          "FLIGHT_NUMBER",
+          "SCHEDULED_DEPARTURE",
+          "SCHEDULED_TIME",
+          "DISTANCE",
+          "SCHEDULED_ARRIVAL"
+        ]
+      }
+    },
+    "No DISTANCE": {
+      "RandomForest": {
+        "accuracy": 0.622356495468278,
+        "features_used": 12,
+        "categories_used": [
+          "AIRLINE",
+          "ORIGIN_AIRPORT",
+          "DESTINATION_AIRPORT",
+          "DAY_OF_WEEK",
+          "MONTH",
+          "TAIL_NUMBER"
+        ],
+        "numerical_used": [
+          "YEAR",
+          "DAY",
+          "FLIGHT_NUMBER",
+          "SCHEDULED_DEPARTURE",
+          "SCHEDULED_TIME",
+          "SCHEDULED_ARRIVAL"
+        ]
+      },
+      "LogisticRegression": {
+        "accuracy": 0.5649546827794562,
+        "features_used": 12,
+        "categories_used": [
+          "AIRLINE",
+          "ORIGIN_AIRPORT",
+          "DESTINATION_AIRPORT",
+          "DAY_OF_WEEK",
+          "MONTH",
+          "TAIL_NUMBER"
+        ],
+        "numerical_used": [
+          "YEAR",
+          "DAY",
+          "FLIGHT_NUMBER",
+          "SCHEDULED_DEPARTURE",
+          "SCHEDULED_TIME",
+          "SCHEDULED_ARRIVAL"
+        ]
+      },
+      "NeuralNetwork": {
+        "accuracy": 0.5332326283987915,
+        "features_used": 12,
+        "categories_used": [
+          "AIRLINE",
+          "ORIGIN_AIRPORT",
+          "DESTINATION_AIRPORT",
+          "DAY_OF_WEEK",
+          "MONTH",
+          "TAIL_NUMBER"
+        ],
+        "numerical_used": [
+          "YEAR",
+          "DAY",
+          "FLIGHT_NUMBER",
+          "SCHEDULED_DEPARTURE",
+          "SCHEDULED_TIME",
+          "SCHEDULED_ARRIVAL"
+        ]
+      }
+    },
+    "No SCHEDULED_DEPARTURE": {
+      "RandomForest": {
+        "accuracy": 0.620845921450151,
+        "features_used": 12,
+        "categories_used": [
+          "AIRLINE",
+          "ORIGIN_AIRPORT",
+          "DESTINATION_AIRPORT",
+          "DAY_OF_WEEK",
+          "MONTH",
+          "TAIL_NUMBER"
+        ],
+        "numerical_used": [
+          "YEAR",
+          "DAY",
+          "FLIGHT_NUMBER",
+          "SCHEDULED_TIME",
+          "DISTANCE",
+          "SCHEDULED_ARRIVAL"
+        ]
+      },
+      "LogisticRegression": {
+        "accuracy": 0.5709969788519638,
+        "features_used": 12,
+        "categories_used": [
+          "AIRLINE",
+          "ORIGIN_AIRPORT",
+          "DESTINATION_AIRPORT",
+          "DAY_OF_WEEK",
+          "MONTH",
+          "TAIL_NUMBER"
+        ],
+        "numerical_used": [
+          "YEAR",
+          "DAY",
+          "FLIGHT_NUMBER",
+          "SCHEDULED_TIME",
+          "DISTANCE",
+          "SCHEDULED_ARRIVAL"
+        ]
+      },
+      "NeuralNetwork": {
+        "accuracy": 0.5196374622356495,
+        "features_used": 12,
+        "categories_used": [
+          "AIRLINE",
+          "ORIGIN_AIRPORT",
+          "DESTINATION_AIRPORT",
+          "DAY_OF_WEEK",
+          "MONTH",
+          "TAIL_NUMBER"
+        ],
+        "numerical_used": [
+          "YEAR",
+          "DAY",
+          "FLIGHT_NUMBER",
+          "SCHEDULED_TIME",
+          "DISTANCE",
+          "SCHEDULED_ARRIVAL"
+        ]
+      }
+    },
+    "No SCHEDULED_TIME": {
+      "RandomForest": {
+        "accuracy": 0.6238670694864048,
+        "features_used": 12,
+        "categories_used": [
+          "AIRLINE",
+          "ORIGIN_AIRPORT",
+          "DESTINATION_AIRPORT",
+          "DAY_OF_WEEK",
+          "MONTH",
+          "TAIL_NUMBER"
+        ],
+        "numerical_used": [
+          "YEAR",
+          "DAY",
+          "FLIGHT_NUMBER",
+          "SCHEDULED_DEPARTURE",
+          "DISTANCE",
+          "SCHEDULED_ARRIVAL"
+        ]
+      },
+      "LogisticRegression": {
+        "accuracy": 0.5619335347432024,
+        "features_used": 12,
+        "categories_used": [
+          "AIRLINE",
+          "ORIGIN_AIRPORT",
+          "DESTINATION_AIRPORT",
+          "DAY_OF_WEEK",
+          "MONTH",
+          "TAIL_NUMBER"
+        ],
+        "numerical_used": [
+          "YEAR",
+          "DAY",
+          "FLIGHT_NUMBER",
+          "SCHEDULED_DEPARTURE",
+          "DISTANCE",
+          "SCHEDULED_ARRIVAL"
+        ]
+      },
+      "NeuralNetwork": {
+        "accuracy": 0.5151057401812689,
+        "features_used": 12,
+        "categories_used": [
+          "AIRLINE",
+          "ORIGIN_AIRPORT",
+          "DESTINATION_AIRPORT",
+          "DAY_OF_WEEK",
+          "MONTH",
+          "TAIL_NUMBER"
+        ],
+        "numerical_used": [
+          "YEAR",
+          "DAY",
+          "FLIGHT_NUMBER",
+          "SCHEDULED_DEPARTURE",
+          "DISTANCE",
+          "SCHEDULED_ARRIVAL"
+        ]
+      }
+    },
+    "No Airport Info": {
+      "RandomForest": {
+        "accuracy": 0.6238670694864048,
+        "features_used": 11,
+        "categories_used": [
+          "AIRLINE",
+          "DAY_OF_WEEK",
+          "MONTH",
+          "TAIL_NUMBER"
+        ],
+        "numerical_used": [
+          "YEAR",
+          "DAY",
+          "FLIGHT_NUMBER",
+          "SCHEDULED_DEPARTURE",
+          "SCHEDULED_TIME",
+          "DISTANCE",
+          "SCHEDULED_ARRIVAL"
+        ]
+      },
+      "LogisticRegression": {
+        "accuracy": 0.5845921450151057,
+        "features_used": 11,
+        "categories_used": [
+          "AIRLINE",
+          "DAY_OF_WEEK",
+          "MONTH",
+          "TAIL_NUMBER"
+        ],
+        "numerical_used": [
+          "YEAR",
+          "DAY",
+          "FLIGHT_NUMBER",
+          "SCHEDULED_DEPARTURE",
+          "SCHEDULED_TIME",
+          "DISTANCE",
+          "SCHEDULED_ARRIVAL"
+        ]
+      },
+      "NeuralNetwork": {
+        "accuracy": 0.5166163141993958,
+        "features_used": 11,
+        "categories_used": [
+          "AIRLINE",
+          "DAY_OF_WEEK",
+          "MONTH",
+          "TAIL_NUMBER"
+        ],
+        "numerical_used": [
+          "YEAR",
+          "DAY",
+          "FLIGHT_NUMBER",
+          "SCHEDULED_DEPARTURE",
+          "SCHEDULED_TIME",
+          "DISTANCE",
+          "SCHEDULED_ARRIVAL"
+        ]
+      }
+    },
+    "No Time Info": {
+      "RandomForest": {
+        "accuracy": 0.6344410876132931,
+        "features_used": 9,
+        "categories_used": [
+          "AIRLINE",
+          "ORIGIN_AIRPORT",
+          "DESTINATION_AIRPORT",
+          "TAIL_NUMBER"
+        ],
+        "numerical_used": [
+          "YEAR",
+          "DAY",
+          "FLIGHT_NUMBER",
+          "DISTANCE",
+          "SCHEDULED_ARRIVAL"
+        ]
+      },
+      "LogisticRegression": {
+        "accuracy": 0.5619335347432024,
+        "features_used": 9,
+        "categories_used": [
+          "AIRLINE",
+          "ORIGIN_AIRPORT",
+          "DESTINATION_AIRPORT",
+          "TAIL_NUMBER"
+        ],
+        "numerical_used": [
+          "YEAR",
+          "DAY",
+          "FLIGHT_NUMBER",
+          "DISTANCE",
+          "SCHEDULED_ARRIVAL"
+        ]
+      },
+      "NeuralNetwork": {
+        "accuracy": 0.5483383685800605,
+        "features_used": 9,
+        "categories_used": [
+          "AIRLINE",
+          "ORIGIN_AIRPORT",
+          "DESTINATION_AIRPORT",
+          "TAIL_NUMBER"
+        ],
+        "numerical_used": [
+          "YEAR",
+          "DAY",
+          "FLIGHT_NUMBER",
+          "DISTANCE",
+          "SCHEDULED_ARRIVAL"
+        ]
+      }
+    },
+    "Categories Only": {
+      "RandomForest": {
+        "accuracy": 0.5830815709969789,
+        "features_used": 6,
+        "categories_used": [
+          "AIRLINE",
+          "ORIGIN_AIRPORT",
+          "DESTINATION_AIRPORT",
+          "DAY_OF_WEEK",
+          "MONTH",
+          "TAIL_NUMBER"
+        ],
+        "numerical_used": []
+      },
+      "LogisticRegression": {
+        "accuracy": 0.5030211480362538,
+        "features_used": 6,
+        "categories_used": [
+          "AIRLINE",
+          "ORIGIN_AIRPORT",
+          "DESTINATION_AIRPORT",
+          "DAY_OF_WEEK",
+          "MONTH",
+          "TAIL_NUMBER"
+        ],
+        "numerical_used": []
+      },
+      "NeuralNetwork": {
+        "accuracy": 0.513595166163142,
+        "features_used": 6,
+        "categories_used": [
+          "AIRLINE",
+          "ORIGIN_AIRPORT",
+          "DESTINATION_AIRPORT",
+          "DAY_OF_WEEK",
+          "MONTH",
+          "TAIL_NUMBER"
+        ],
+        "numerical_used": []
+      }
+    },
+    "Numerical Only": {
+      "RandomForest": {
+        "accuracy": 0.6027190332326284,
+        "features_used": 8,
+        "categories_used": [
+          "TAIL_NUMBER"
+        ],
+        "numerical_used": [
+          "YEAR",
+          "DAY",
+          "FLIGHT_NUMBER",
+          "SCHEDULED_DEPARTURE",
+          "SCHEDULED_TIME",
+          "DISTANCE",
+          "SCHEDULED_ARRIVAL"
+        ]
+      },
+      "LogisticRegression": {
+        "accuracy": 0.5770392749244713,
+        "features_used": 8,
+        "categories_used": [
+          "TAIL_NUMBER"
+        ],
+        "numerical_used": [
+          "YEAR",
+          "DAY",
+          "FLIGHT_NUMBER",
+          "SCHEDULED_DEPARTURE",
+          "SCHEDULED_TIME",
+          "DISTANCE",
+          "SCHEDULED_ARRIVAL"
+        ]
+      },
+      "NeuralNetwork": {
+        "accuracy": 0.5287009063444109,
+        "features_used": 8,
+        "categories_used": [
+          "TAIL_NUMBER"
+        ],
+        "numerical_used": [
+          "YEAR",
+          "DAY",
+          "FLIGHT_NUMBER",
+          "SCHEDULED_DEPARTURE",
+          "SCHEDULED_TIME",
+          "DISTANCE",
+          "SCHEDULED_ARRIVAL"
+        ]
+      }
+    },
+    "Essential Only": {
+      "RandomForest": {
+        "accuracy": 0.6163141993957704,
+        "features_used": 9,
+        "categories_used": [
+          "AIRLINE",
+          "ORIGIN_AIRPORT",
+          "DESTINATION_AIRPORT",
+          "DAY_OF_WEEK",
+          "MONTH",
+          "TAIL_NUMBER"
+        ],
+        "numerical_used": [
+          "SCHEDULED_DEPARTURE",
+          "SCHEDULED_TIME",
+          "DISTANCE"
+        ]
+      },
+      "LogisticRegression": {
+        "accuracy": 0.5664652567975831,
+        "features_used": 9,
+        "categories_used": [
+          "AIRLINE",
+          "ORIGIN_AIRPORT",
+          "DESTINATION_AIRPORT",
+          "DAY_OF_WEEK",
+          "MONTH",
+          "TAIL_NUMBER"
+        ],
+        "numerical_used": [
+          "SCHEDULED_DEPARTURE",
+          "SCHEDULED_TIME",
+          "DISTANCE"
+        ]
+      },
+      "NeuralNetwork": {
+        "accuracy": 0.5649546827794562,
+        "features_used": 9,
+        "categories_used": [
+          "AIRLINE",
+          "ORIGIN_AIRPORT",
+          "DESTINATION_AIRPORT",
+          "DAY_OF_WEEK",
+          "MONTH",
+          "TAIL_NUMBER"
+        ],
+        "numerical_used": [
+          "SCHEDULED_DEPARTURE",
+          "SCHEDULED_TIME",
+          "DISTANCE"
+        ]
+      }
+    }
+  },
+  "feature_importance": [
+    {
+      "feature": "FLIGHT_NUMBER",
+      "importance": 0.1349172697500732
+    },
+    {
+      "feature": "SCHEDULED_ARRIVAL",
+      "importance": 0.12493082516140046
+    },
+    {
+      "feature": "SCHEDULED_DEPARTURE",
+      "importance": 0.12113402175508552
+    },
+    {
+      "feature": "TAIL_NUMBER",
+      "importance": 0.12080820375992447
+    },
+    {
+      "feature": "DESTINATION_AIRPORT",
+      "importance": 0.11384799298951238
+    },
+    {
+      "feature": "DISTANCE",
+      "importance": 0.10842260563972655
+    },
+    {
+      "feature": "ORIGIN_AIRPORT",
+      "importance": 0.10441050038760102
+    },
+    {
+      "feature": "SCHEDULED_TIME",
+      "importance": 0.10168473403797922
+    },
+    {
+      "feature": "AIRLINE",
+      "importance": 0.06984384651869706
+    },
+    {
+      "feature": "DAY_OF_WEEK",
+      "importance": 0.0
+    },
+    {
+      "feature": "MONTH",
+      "importance": 0.0
+    },
+    {
+      "feature": "YEAR",
+      "importance": 0.0
+    },
+    {
+      "feature": "DAY",
+      "importance": 0.0
+    }
+  ],
+  "metadata": {
+    "data_size_limit": 10000,
+    "actual_data_size": 10000,
+    "best_parameters_used": {
+      "RandomForest": {
+        "n_estimators": 150,
+        "max_depth": 15,
+        "min_samples_split": 5,
+        "min_samples_leaf": 2
+      },
+      "LogisticRegression": {
+        "C": 10.0,
+        "max_iter": 1500
+      },
+      "NeuralNetwork": {
+        "hidden_layer_sizes": [
+          150,
+          75
+        ],
+        "alpha": 0.001,
+        "max_iter": 800
+      }
+    }
+  }
+}
