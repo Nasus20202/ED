@@ -115,7 +115,7 @@ Rozmiar zbioru danych został ograniczony do 100 000 rekordów, aby przyspieszy�
 #table(
   columns: 6,
   [Model], [Decision Tree], [Random Forest], [Logistic Regression], [K-NN], [Neural Network],
-  [Dokładność], `54.835%`, `61.57%`, `59.07%`, `55.3%`, `59.32%`,
+  [Dokładność], `54.835%`, `61.57%`, `59.07%`, `55.30%`, `59.32%`,
 )
 #image("img/model_accuracies.png")
 
@@ -203,62 +203,61 @@ Dokonano analizy wpływu usunięcia poszczególnych cech na dokładność modeli
 #image("img/feature_removal_impact.png")
 
 #align(center)[
-  *Random Forest*
+  *Random Forest (dokładność nominalna: 62.24%)*
   #table(
-    columns: 2,
-    [Usunięta cecha], [Dokładność po usunięciu],
-    [AIRLINE], [60.12%],
-    [ORIGIN_AIRPORT], [62.83%],
-    [DESTINATION_AIRPORT], [62.08%],
-    [DAY_OF_WEEK], [62.84%],
-    [MONTH], [62.84%],
-    // ...
-    [DISTANCE], [62.24%],
-    [SCHEDULED_DEPARTURE], [62.08%],
-    [SCHEDULED_TIME], [62.39%],
-    [Airport Info], [62.39%],
-    [Time Info], [63.44%],
-    [Categories Only], [58.31%],
-    [Numerical Only], [58.61%],
-    [Essential Only], [61.63%],
+    columns: 3,
+    [Usunięta cecha/cechy], [Dokładność po usunięciu], [Różnica],
+    [AIRLINE], [61.18%], [-1.06%],
+    [ORIGIN_AIRPORT], [63.00%], [+0.76%],
+    [DESTINATION_AIRPORT], [63.29%], [+1.05%],
+    [DAY_OF_WEEK], [61.48%], [-0.76%],
+    [MONTH], [61.48%], [-0.76%],
+    [DISTANCE], [62.24%], [-0.00%],
+    [SCHEDULED_DEPARTURE], [62.08%], [-0.16%],
+    [SCHEDULED_TIME], [62.39%], [+0.15%],
+    [Informacje lotniskowe], [62.39%], [+0.15%],
+    [Informacje o dniu], [63.44%], [+1.20%],
+    /*[Categories Only], [58.31%], [-3.93%],
+    [Numerical Only], [58.61%], [-3.63%],
+    [Essential Only], [61.63%], [-0.61%],*/
   )
 
-  *Logistic Regression*
+  *Logistic Regression (dokładność nominalna: 58.61%)*
   #table(
-    columns: 2,
-    [Usunięta cecha], [Dokładność po usunięciu],
-    [AIRLINE], [61.18%],
-    [ORIGIN_AIRPORT], [62.99%],
-    [DESTINATION_AIRPORT], [63.29%],
-    [DAY_OF_WEEK], [61.48%],
-    [MONTH], [61.48%],
-    [DISTANCE], [62.24%],
-    [SCHEDULED_DEPARTURE], [62.08%],
-    [SCHEDULED_TIME], [62.39%],
-    [Airport Info], [62.39%],
-    [Time Info], [63.44%],
-    [Categories Only], [58.31%],
-    [Numerical Only], [58.61%],
-    [Essential Only], [61.63%],
+    columns: 3,
+    [Usunięta cecha/cechy], [Dokładność po usunięciu], [Różnica],
+    [AIRLINE], [58.01%], [-0.60%],
+    [ORIGIN_AIRPORT], [58.46%], [-0.15%],
+    [DESTINATION_AIRPORT], [58.01%], [-0.60%],
+    [DAY_OF_WEEK], [58.61%], [-0.00%],
+    [MONTH], [58.61%], [-0.00%],
+    [DISTANCE], [56.50%], [-2.11%],
+    [SCHEDULED_DEPARTURE], [57.10%], [-1.51%],
+    [SCHEDULED_TIME], [56.19%], [-2.42%],
+    [Informacje lotniskowe], [58.46%], [-0.15%],
+    [Informacje o dniu], [56.19%], [-2.42%],
+    /*[Categories Only], [50.30%], [-8.31%],
+    [Numerical Only], [57.10%], [-1.51%],
+    [Essential Only], [56.65%], [-1.96%],*/
   )
 
-  *Neural Network*
+  *Neural Network (dokładność nominalna: 54.22%)*
   #table(
-    columns: 2,
-    [Usunięta cecha], [Dokładność po usunięciu],
-    [AIRLINE], [61.18%],
-    [ORIGIN_AIRPORT], [62.99%],
-    [DESTINATION_AIRPORT], [63.29%],
-    [DAY_OF_WEEK], [61.48%],
-    [MONTH], [61.48%],
-    [DISTANCE], [62.24%],
-    [SCHEDULED_DEPARTURE], [62.08%],
-    [SCHEDULED_TIME], [62.39%],
-    [Airport Info], [62.39%],
-    [Time Info], [63.44%],
-    [Categories Only], [58.31%],
-    [Numerical Only], [58.61%],
-    [Essential Only], [61.63%],
+    columns: 3,
+    [Usunięta cecha/cechy], [Dokładność po usunięciu], [Różnica],
+    [AIRLINE], [51.96%], [-2.26%],
+    [ORIGIN_AIRPORT], [52.27%], [-1.95%],
+    [DESTINATION_AIRPORT], [55.74%], [+1.52%],
+    [DAY_OF_WEEK], [53.02%], [-1.20%],
+    [MONTH], [53.02%], [-1.20%],
+    [DISTANCE], [53.32%], [-0.90%],
+    [SCHEDULED_DEPARTURE], [51.96%], [-2.26%],
+    [SCHEDULED_TIME], [51.51%], [-2.71%],
+    [Informacje lotniskowe], [51.66%], [-2.56%],
+    [Informacje o dniu], [54.83%], [-0.61%],
+    /*[Categories Only], [51.36%], [-2.86%],
+    [Numerical Only], [48.49%], [-5.73%],
+    [Essential Only], [56.50%], [-2.28%],*/
   )
 ]
 
