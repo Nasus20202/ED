@@ -1,7 +1,7 @@
 {
   "baseline_results": {
     "RandomForest": {
-      "accuracy": 0.622356495468278,
+      "accuracy": 0.6895269265099673,
       "features_used": 13,
       "categories": [
         "AIRLINE",
@@ -22,7 +22,7 @@
       ]
     },
     "LogisticRegression": {
-      "accuracy": 0.5861027190332326,
+      "accuracy": 0.6105325795894079,
       "features_used": 13,
       "categories": [
         "AIRLINE",
@@ -43,7 +43,7 @@
       ]
     },
     "NeuralNetwork": {
-      "accuracy": 0.5422960725075529,
+      "accuracy": 0.6249628086878906,
       "features_used": 13,
       "categories": [
         "AIRLINE",
@@ -67,7 +67,7 @@
   "feature_analysis_results": {
     "No AIRLINE": {
       "RandomForest": {
-        "accuracy": 0.6117824773413897,
+        "accuracy": 0.6764355846474264,
         "features_used": 12,
         "categories_used": [
           "ORIGIN_AIRPORT",
@@ -87,7 +87,7 @@
         ]
       },
       "LogisticRegression": {
-        "accuracy": 0.5800604229607251,
+        "accuracy": 0.6120946146980065,
         "features_used": 12,
         "categories_used": [
           "ORIGIN_AIRPORT",
@@ -107,7 +107,7 @@
         ]
       },
       "NeuralNetwork": {
-        "accuracy": 0.5196374622356495,
+        "accuracy": 0.6393186551621541,
         "features_used": 12,
         "categories_used": [
           "ORIGIN_AIRPORT",
@@ -129,7 +129,7 @@
     },
     "No ORIGIN_AIRPORT": {
       "RandomForest": {
-        "accuracy": 0.6299093655589124,
+        "accuracy": 0.6811960725974412,
         "features_used": 12,
         "categories_used": [
           "AIRLINE",
@@ -149,7 +149,7 @@
         ]
       },
       "LogisticRegression": {
-        "accuracy": 0.5845921450151057,
+        "accuracy": 0.6107557274620649,
         "features_used": 12,
         "categories_used": [
           "AIRLINE",
@@ -169,7 +169,7 @@
         ]
       },
       "NeuralNetwork": {
-        "accuracy": 0.5226586102719033,
+        "accuracy": 0.6348556977090152,
         "features_used": 12,
         "categories_used": [
           "AIRLINE",
@@ -191,7 +191,7 @@
     },
     "No DESTINATION_AIRPORT": {
       "RandomForest": {
-        "accuracy": 0.6329305135951662,
+        "accuracy": 0.6846176733115145,
         "features_used": 12,
         "categories_used": [
           "AIRLINE",
@@ -211,7 +211,7 @@
         ]
       },
       "LogisticRegression": {
-        "accuracy": 0.5800604229607251,
+        "accuracy": 0.6119458494495685,
         "features_used": 12,
         "categories_used": [
           "AIRLINE",
@@ -231,7 +231,7 @@
         ]
       },
       "NeuralNetwork": {
-        "accuracy": 0.5574018126888217,
+        "accuracy": 0.6385004462957453,
         "features_used": 12,
         "categories_used": [
           "AIRLINE",
@@ -253,7 +253,7 @@
     },
     "No DAY_OF_WEEK": {
       "RandomForest": {
-        "accuracy": 0.6148036253776435,
+        "accuracy": 0.686551621541208,
         "features_used": 12,
         "categories_used": [
           "AIRLINE",
@@ -273,7 +273,7 @@
         ]
       },
       "LogisticRegression": {
-        "accuracy": 0.5861027190332326,
+        "accuracy": 0.6024248735495388,
         "features_used": 12,
         "categories_used": [
           "AIRLINE",
@@ -293,7 +293,7 @@
         ]
       },
       "NeuralNetwork": {
-        "accuracy": 0.5302114803625377,
+        "accuracy": 0.6428890211246653,
         "features_used": 12,
         "categories_used": [
           "AIRLINE",
@@ -315,7 +315,7 @@
     },
     "No MONTH": {
       "RandomForest": {
-        "accuracy": 0.6148036253776435,
+        "accuracy": 0.6889318655162154,
         "features_used": 12,
         "categories_used": [
           "AIRLINE",
@@ -335,7 +335,7 @@
         ]
       },
       "LogisticRegression": {
-        "accuracy": 0.5861027190332326,
+        "accuracy": 0.6105325795894079,
         "features_used": 12,
         "categories_used": [
           "AIRLINE",
@@ -355,7 +355,7 @@
         ]
       },
       "NeuralNetwork": {
-        "accuracy": 0.5302114803625377,
+        "accuracy": 0.6463850044629574,
         "features_used": 12,
         "categories_used": [
           "AIRLINE",
@@ -377,7 +377,7 @@
     },
     "No DISTANCE": {
       "RandomForest": {
-        "accuracy": 0.622356495468278,
+        "accuracy": 0.6888574828919964,
         "features_used": 12,
         "categories_used": [
           "AIRLINE",
@@ -397,7 +397,7 @@
         ]
       },
       "LogisticRegression": {
-        "accuracy": 0.5649546827794562,
+        "accuracy": 0.6110532579589408,
         "features_used": 12,
         "categories_used": [
           "AIRLINE",
@@ -417,7 +417,7 @@
         ]
       },
       "NeuralNetwork": {
-        "accuracy": 0.5332326283987915,
+        "accuracy": 0.640285629277001,
         "features_used": 12,
         "categories_used": [
           "AIRLINE",
@@ -439,7 +439,7 @@
     },
     "No SCHEDULED_DEPARTURE": {
       "RandomForest": {
-        "accuracy": 0.620845921450151,
+        "accuracy": 0.6911633442427849,
         "features_used": 12,
         "categories_used": [
           "AIRLINE",
@@ -459,7 +459,7 @@
         ]
       },
       "LogisticRegression": {
-        "accuracy": 0.5709969788519638,
+        "accuracy": 0.6048051175245462,
         "features_used": 12,
         "categories_used": [
           "AIRLINE",
@@ -479,7 +479,7 @@
         ]
       },
       "NeuralNetwork": {
-        "accuracy": 0.5196374622356495,
+        "accuracy": 0.635450758702767,
         "features_used": 12,
         "categories_used": [
           "AIRLINE",
@@ -501,7 +501,7 @@
     },
     "No SCHEDULED_TIME": {
       "RandomForest": {
-        "accuracy": 0.6238670694864048,
+        "accuracy": 0.6901963701279381,
         "features_used": 12,
         "categories_used": [
           "AIRLINE",
@@ -521,7 +521,7 @@
         ]
       },
       "LogisticRegression": {
-        "accuracy": 0.5619335347432024,
+        "accuracy": 0.6115739363284737,
         "features_used": 12,
         "categories_used": [
           "AIRLINE",
@@ -541,7 +541,7 @@
         ]
       },
       "NeuralNetwork": {
-        "accuracy": 0.5151057401812689,
+        "accuracy": 0.6425171080035703,
         "features_used": 12,
         "categories_used": [
           "AIRLINE",
@@ -563,7 +563,7 @@
     },
     "No Airport Info": {
       "RandomForest": {
-        "accuracy": 0.6238670694864048,
+        "accuracy": 0.6744272537935139,
         "features_used": 11,
         "categories_used": [
           "AIRLINE",
@@ -582,7 +582,7 @@
         ]
       },
       "LogisticRegression": {
-        "accuracy": 0.5845921450151057,
+        "accuracy": 0.6120946146980065,
         "features_used": 11,
         "categories_used": [
           "AIRLINE",
@@ -601,7 +601,7 @@
         ]
       },
       "NeuralNetwork": {
-        "accuracy": 0.5166163141993958,
+        "accuracy": 0.6322523058613508,
         "features_used": 11,
         "categories_used": [
           "AIRLINE",
@@ -622,7 +622,7 @@
     },
     "No Time Info": {
       "RandomForest": {
-        "accuracy": 0.6344410876132931,
+        "accuracy": 0.690717048497471,
         "features_used": 9,
         "categories_used": [
           "AIRLINE",
@@ -639,7 +639,7 @@
         ]
       },
       "LogisticRegression": {
-        "accuracy": 0.5619335347432024,
+        "accuracy": 0.5994495685807796,
         "features_used": 9,
         "categories_used": [
           "AIRLINE",
@@ -656,7 +656,7 @@
         ]
       },
       "NeuralNetwork": {
-        "accuracy": 0.5483383685800605,
+        "accuracy": 0.6375334721808985,
         "features_used": 9,
         "categories_used": [
           "AIRLINE",
@@ -675,7 +675,7 @@
     },
     "Categories Only": {
       "RandomForest": {
-        "accuracy": 0.5830815709969789,
+        "accuracy": 0.6626747991669146,
         "features_used": 6,
         "categories_used": [
           "AIRLINE",
@@ -688,7 +688,7 @@
         "numerical_used": []
       },
       "LogisticRegression": {
-        "accuracy": 0.5030211480362538,
+        "accuracy": 0.5412079738173162,
         "features_used": 6,
         "categories_used": [
           "AIRLINE",
@@ -701,7 +701,7 @@
         "numerical_used": []
       },
       "NeuralNetwork": {
-        "accuracy": 0.513595166163142,
+        "accuracy": 0.5946890806307646,
         "features_used": 6,
         "categories_used": [
           "AIRLINE",
@@ -716,7 +716,7 @@
     },
     "Numerical Only": {
       "RandomForest": {
-        "accuracy": 0.5861027190332326,
+        "accuracy": 0.6491371615590598,
         "features_used": 7,
         "categories_used": [],
         "numerical_used": [
@@ -730,7 +730,7 @@
         ]
       },
       "LogisticRegression": {
-        "accuracy": 0.5709969788519638,
+        "accuracy": 0.6030199345432907,
         "features_used": 7,
         "categories_used": [],
         "numerical_used": [
@@ -744,7 +744,7 @@
         ]
       },
       "NeuralNetwork": {
-        "accuracy": 0.48489425981873113,
+        "accuracy": 0.618565903005058,
         "features_used": 7,
         "categories_used": [],
         "numerical_used": [
@@ -760,7 +760,7 @@
     },
     "Essential Only": {
       "RandomForest": {
-        "accuracy": 0.6163141993957704,
+        "accuracy": 0.6910145789943469,
         "features_used": 9,
         "categories_used": [
           "AIRLINE",
@@ -777,7 +777,7 @@
         ]
       },
       "LogisticRegression": {
-        "accuracy": 0.5664652567975831,
+        "accuracy": 0.6015322820589111,
         "features_used": 9,
         "categories_used": [
           "AIRLINE",
@@ -794,7 +794,7 @@
         ]
       },
       "NeuralNetwork": {
-        "accuracy": 0.5649546827794562,
+        "accuracy": 0.6283100267777447,
         "features_used": 9,
         "categories_used": [
           "AIRLINE",
@@ -814,44 +814,48 @@
   },
   "feature_importance": [
     {
-      "feature": "FLIGHT_NUMBER",
-      "importance": 0.1349172697500732
+      "feature": "SCHEDULED_DEPARTURE",
+      "importance": 0.14118483749685254
     },
     {
       "feature": "SCHEDULED_ARRIVAL",
-      "importance": 0.12493082516140046
+      "importance": 0.1294064768569902
     },
     {
-      "feature": "SCHEDULED_DEPARTURE",
-      "importance": 0.12113402175508552
+      "feature": "FLIGHT_NUMBER",
+      "importance": 0.10192518827331963
     },
     {
       "feature": "TAIL_NUMBER",
-      "importance": 0.12080820375992447
-    },
-    {
-      "feature": "DESTINATION_AIRPORT",
-      "importance": 0.11384799298951238
-    },
-    {
-      "feature": "DISTANCE",
-      "importance": 0.10842260563972655
+      "importance": 0.09892370646972189
     },
     {
       "feature": "ORIGIN_AIRPORT",
-      "importance": 0.10441050038760102
+      "importance": 0.09497561998215139
+    },
+    {
+      "feature": "DISTANCE",
+      "importance": 0.08796230556787306
     },
     {
       "feature": "SCHEDULED_TIME",
-      "importance": 0.10168473403797922
+      "importance": 0.08277299149761444
+    },
+    {
+      "feature": "DESTINATION_AIRPORT",
+      "importance": 0.07988594548616645
     },
     {
       "feature": "AIRLINE",
-      "importance": 0.06984384651869706
+      "importance": 0.06817742797767812
     },
     {
       "feature": "DAY_OF_WEEK",
-      "importance": 0.0
+      "importance": 0.058326398631654626
+    },
+    {
+      "feature": "DAY",
+      "importance": 0.05645910175997769
     },
     {
       "feature": "MONTH",
@@ -860,15 +864,11 @@
     {
       "feature": "YEAR",
       "importance": 0.0
-    },
-    {
-      "feature": "DAY",
-      "importance": 0.0
     }
   ],
   "metadata": {
-    "data_size_limit": 10000,
-    "actual_data_size": 10000,
+    "data_size_limit": 100000,
+    "actual_data_size": 100000,
     "best_parameters_used": {
       "RandomForest": {
         "n_estimators": 150,

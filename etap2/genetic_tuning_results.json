@@ -1,30 +1,33 @@
 {
   "RandomForest": {
     "best_parameters": {
-      "n_estimators": 28,
-      "max_depth": 4,
-      "min_samples_split": 8,
-      "min_samples_leaf": 3
+      "n_estimators": 141,
+      "max_depth": 14,
+      "min_samples_split": 7,
+      "min_samples_leaf": 5
     },
-    "best_data_size": 1000,
-    "best_cv_score": 0.6845238095238094
+    "best_data_size": 10000,
+    "best_cv_score": 0.6802995836476269
   },
   "LogisticRegression": {
     "best_parameters": {
-      "C": 17.825130908924248,
-      "max_iter": 100
+      "C": 14.162284056734983,
+      "max_iter": 1857
     },
-    "best_data_size": 1000,
-    "best_cv_score": 0.7261904761904762
+    "best_data_size": 10000,
+    "best_cv_score": 0.6310000826117405
   },
   "NeuralNetwork": {
     "best_parameters": {
-      "hidden_layer_sizes": [100, 83],
-      "alpha": 0.001250989049196891,
-      "max_iter": 785
+      "hidden_layer_sizes": [
+        129,
+        25
+      ],
+      "alpha": 0.008831985332491769,
+      "max_iter": 542
     },
-    "best_data_size": 1000,
-    "best_cv_score": 0.7202380952380952
+    "best_data_size": 10000,
+    "best_cv_score": 0.6022993421117756
   },
   "configuration": {
     "ga_config": {
@@ -38,24 +41,58 @@
     },
     "param_ranges": {
       "RandomForest": {
-        "n_estimators": [10, 200],
-        "max_depth": [3, 20],
-        "min_samples_split": [2, 20],
-        "min_samples_leaf": [1, 10]
+        "n_estimators": [
+          10,
+          200
+        ],
+        "max_depth": [
+          3,
+          20
+        ],
+        "min_samples_split": [
+          2,
+          20
+        ],
+        "min_samples_leaf": [
+          1,
+          10
+        ]
       },
       "LogisticRegression": {
-        "C": [0.01, 100.0],
-        "max_iter": [100, 2000]
+        "C": [
+          0.01,
+          100.0
+        ],
+        "max_iter": [
+          100,
+          2000
+        ]
       },
       "NeuralNetwork": {
-        "hidden_layer_size_1": [50, 200],
-        "hidden_layer_size_2": [20, 100],
-        "alpha": [0.0001, 0.01],
-        "max_iter": [200, 1000]
+        "hidden_layer_size_1": [
+          50,
+          200
+        ],
+        "hidden_layer_size_2": [
+          20,
+          100
+        ],
+        "alpha": [
+          0.0001,
+          0.01
+        ],
+        "max_iter": [
+          200,
+          1000
+        ]
       }
     },
-    "data_size_options": [1000, 5000, 10000],
-    "data_size_limit": 100,
+    "data_size_options": [
+      1000,
+      5000,
+      10000
+    ],
+    "data_size_limit": 50000,
     "cv_folds": 3
   }
 }
