@@ -326,7 +326,7 @@ W ramach drugiego etapu projektu z przedmiotu Eksploracja Danych zrealizowano pr
 
 Ze względu na bardzo dużą liczbę przykładów (ponad 5,8 miliona rekordów), w części eksperymentów zastosowano ograniczenie zbioru do 10 000 przykładów. Umożliwiło to szybsze przeprowadzanie eksperymentów i optymalizację hiperparametrów bez utraty ogólności wyników.
 
-== Ocena modeli
+== Ocena modeli--
 
 Spośród testowanych modeli najwyższą dokładność na zbiorze testowym osiągnął Random Forest (68.02%) po optymalizacji parametrów. Regresja logistyczna oraz sieć neuronowa również uzyskały poprawę skuteczności względem wersji bazowych. Pomimo użycia stosunkowo prostych cech wejściowych, modele uzyskały stabilne wyniki. Analiza wpływu cech oraz wizualizacje modelowe pozwoliły dodatkowo zidentyfikować najbardziej znaczące atrybuty - m.in. FLIGHT_NUMBER, SCHEDULED_ARRIVAL i SCHEDULED_DEPARTURE.
 
